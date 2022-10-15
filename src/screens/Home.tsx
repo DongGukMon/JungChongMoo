@@ -14,8 +14,8 @@ import {
 
 const Home = () => {
   const {navigate} = useNavigation();
-  const goToNewCalculate = useCallback(() => {
-    navigate('NewCalculate' as never);
+  const goToModifyCalculate = useCallback(() => {
+    navigate('ModifyCalculateScreen' as never);
   }, []);
   return (
     <>
@@ -40,7 +40,7 @@ const Home = () => {
           <SizedBox height={100} />
         </Padding>
       </ScreenContainer>
-      <MainButton onPress={goToNewCalculate}>
+      <MainButton onPress={goToModifyCalculate}>
         <ButtonText>새로운 정산 만들기</ButtonText>
       </MainButton>
     </>

@@ -1,7 +1,9 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {Text} from 'react-native';
+import CalculateScreen from '../screens/CalculateScreen';
 import Home from '../screens/Home';
-import NewCalculate from '../screens/NewCalculate';
+import ModifyCalculateScreen from '../screens/ModifyCalculateScreen';
+import ModifyPaymentScreen from '../screens/ModifyPaymentScreen';
 import {lightTheme} from '../styles/theme';
 
 const Stack = createStackNavigator();
@@ -17,8 +19,26 @@ function MainStack() {
         }}
       />
       <Stack.Screen
-        name="NewCalculate"
-        component={NewCalculate}
+        name="ModifyCalculateScreen"
+        component={ModifyCalculateScreen}
+        options={{
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerTintColor: lightTheme.colors.text,
+        }}
+      />
+      <Stack.Screen
+        name="CalculateScreen"
+        component={CalculateScreen}
+        options={{
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerTintColor: lightTheme.colors.text,
+        }}
+      />
+      <Stack.Screen
+        name="ModifyPaymentScreen"
+        component={ModifyPaymentScreen}
         options={{
           headerTitle: '',
           headerBackTitleVisible: false,
