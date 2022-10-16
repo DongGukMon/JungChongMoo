@@ -92,7 +92,6 @@ export const FatDescription = styled.Text`
 
 export const Row = styled.View`
   flex-direction: row;
-  justify-content: space-between;
 `;
 
 export const BoxInput = styled.TextInput`

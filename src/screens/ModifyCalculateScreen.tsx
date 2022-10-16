@@ -19,8 +19,8 @@ import {
 
 const ModifyCalculateScreen = () => {
   const {navigate} = useNavigation();
-  const goToCalculate = useCallback(
-    () => navigate('CalculateScreen' as never),
+  const goToGroupDetail = useCallback(
+    () => navigate('GroupDetail' as never),
     [],
   );
   return (
@@ -41,7 +41,8 @@ const ModifyCalculateScreen = () => {
         <Padding padding={26}>
           <SubTitle fontSize={20}>참여자를 입력해주세요.</SubTitle>
           <SizedBox height={10} />
-          <Row>
+          <Row
+            style={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
             <Description fontSize={12}>
               입력란은 자동으로 추가됩니다.
             </Description>
@@ -51,7 +52,7 @@ const ModifyCalculateScreen = () => {
           <BoxInput placeholder="이름을 입력해주세요." />
         </Padding>
       </ScreenContainer>
-      <MainButton onPress={goToCalculate}>
+      <MainButton onPress={goToGroupDetail}>
         <ButtonText>다음</ButtonText>
       </MainButton>
     </>

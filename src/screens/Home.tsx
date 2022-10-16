@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {Text, View} from 'react-native';
 import AdCarousel from '../components/home/AdCarousel';
-import PrevCalculate from '../components/home/PrevCalculate';
+import PrevGroup from '../components/home/PrevGroup';
 import {
   TitleText,
   ScreenContainer,
@@ -32,7 +32,7 @@ const Home = () => {
           {Array.from({length: 5}).map((item, index) => {
             return (
               <React.Fragment key={index}>
-                <PrevCalculate />
+                <PrevGroup />
                 <SizedBox height={20} />
               </React.Fragment>
             );

@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
-import Payment from '../components/Calculate/Payment';
+import Payment from '../components/gruopScreen/Payment';
 import {
   ButtonText,
   FatDescription,
@@ -13,11 +13,15 @@ import {
   TitleText,
 } from '../components/shared/Common';
 
-const CalculateScreen = () => {
+const GroupDetailScreen = () => {
   const {navigate} = useNavigation();
 
   const goToModifyPayment = useCallback(() => {
     navigate('ModifyPaymentScreen' as never);
+  }, []);
+
+  const goToResultScreen = useCallback(() => {
+    navigate('ResultScreen' as never);
   }, []);
 
   return (
@@ -46,10 +50,10 @@ const CalculateScreen = () => {
           <SizedBox height={120} />
         </Padding>
       </ScreenContainer>
-      <MainButton onPress={() => {}}>
+      <MainButton onPress={goToResultScreen}>
         <ButtonText>정산하기</ButtonText>
       </MainButton>
     </>
   );
 };
-export default CalculateScreen;
+export default GroupDetailScreen;

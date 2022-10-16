@@ -10,4 +10,5 @@ export interface StylePropTypes {
   padding: number;
   fontSize: number;
   marginHorizontal: number;
+  isSelected: boolean;
 }

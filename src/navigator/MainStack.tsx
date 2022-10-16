@@ -1,9 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {Text} from 'react-native';
-import CalculateScreen from '../screens/CalculateScreen';
+import GroupDetailScreen from '../screens/GroupDetailScreen';
 import Home from '../screens/Home';
 import ModifyCalculateScreen from '../screens/ModifyCalculateScreen';
 import ModifyPaymentScreen from '../screens/ModifyPaymentScreen';
+import ResultScreen from '../screens/ResultScreen';
 import {lightTheme} from '../styles/theme';
 
 const Stack = createStackNavigator();
@@ -28,8 +29,8 @@ function MainStack() {
         }}
       />
       <Stack.Screen
-        name="CalculateScreen"
-        component={CalculateScreen}
+        name="GroupDetail"
+        component={GroupDetailScreen}
         options={{
           headerTitle: '',
           headerBackTitleVisible: false,
@@ -39,6 +40,15 @@ function MainStack() {
       <Stack.Screen
         name="ModifyPaymentScreen"
         component={ModifyPaymentScreen}
+        options={{
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerTintColor: lightTheme.colors.text,
+        }}
+      />
+      <Stack.Screen
+        name="ResultScreen"
+        component={ResultScreen}
         options={{
           headerTitle: '',
           headerBackTitleVisible: false,

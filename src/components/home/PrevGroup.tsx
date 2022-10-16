@@ -1,7 +1,7 @@
 import {Card} from '../shared/Common';
 
-const PrevCalculate = () => {
+const PrevGroup = () => {
   return <Card height={140}></Card>;
 };
 
-export default PrevCalculate;
+export default PrevGroup;
