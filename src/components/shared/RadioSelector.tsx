@@ -1,6 +1,13 @@
 import styled from '@emotion/native';
+import {GestureResponderEvent} from 'react-native';
 import {StylePropTypes} from '../../types/shared/emotion';
 import {Row, SizedBox, SubTitle} from './Common';
+
+interface RadioSelectorTypes {
+  isSelected: boolean;
+  name: string;
+  onPress: (event: GestureResponderEvent) => void;
+}
 
 const BtnContainer = styled.TouchableOpacity`
   width: 100%;
@@ -10,7 +17,7 @@ const BtnContainer = styled.TouchableOpacity`
 const Radio = styled.View`
   width: 35px;
   height: 35px;
-  border-width: 1px;
+  border-width: 2px;
   border-radius: 25px;
   border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
     props.theme.colors.accent};
@@ -26,13 +33,13 @@ const InnerRadio = styled.View`
     props.theme.colors.accent};
 `;
 
-const RadioSelector = ({isSelected}: {isSelected: boolean}) => {
+const RadioSelector = ({isSelected, name, onPress}: RadioSelectorTypes) => {
   return (
-    <BtnContainer>
+    <BtnContainer onPress={onPress}>
       <Row style={{alignItems: 'center'}}>
         <Radio>{isSelected && <InnerRadio />}</Radio>
         <SizedBox width={10} />
-        <SubTitle fontSize={16}>정총무</SubTitle>
+        <SubTitle fontSize={18}>{name}</SubTitle>
       </Row>
     </BtnContainer>
   );

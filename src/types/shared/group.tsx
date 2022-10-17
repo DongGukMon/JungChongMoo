@@ -1,10 +1,7 @@
 export interface GroupTypes {
   id: string;
   name: string;
-  data: string;
+  date: string;
   participants: string[];
-}
-
-export interface GroupPayloadTypes {
-  [id: string]: GroupTypes;
+  payments: string[];
 }

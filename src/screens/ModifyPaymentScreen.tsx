@@ -21,6 +21,11 @@ import ModalLayout from '../components/shared/ModalLayout';
 import {Dimensions, ScrollView} from 'react-native';
 import MainButton from '../components/shared/MainButton';
 import ScreenLayout from '../components/shared/ScreenLayout';
+import {GroupTypes} from '../types/shared/group';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
+import {selectedGroupSelector} from '../redux/slice/gorupsSlice';
+import {useRoute} from '@react-navigation/native';
 
 const {height} = Dimensions.get('screen');
 
@@ -50,9 +55,18 @@ const ModalContentContainer = styled.View`
 interface ModalPropTypes {
   isVisible: boolean;
   setIsVisible: (arg0: boolean) => void;
+  setPayer: (arg0: string) => void;
+  payer: string;
+  selectedGorup: GroupTypes;
 }
 
-const PayerSelectModal = ({isVisible, setIsVisible}: ModalPropTypes) => {
+const PayerSelectModal = ({
+  selectedGorup,
+  isVisible,
+  setIsVisible,
+  setPayer,
+  payer,
+}: ModalPropTypes) => {
   return (
     <ModalLayout isVisible={isVisible} setIsVisible={setIsVisible}>
       <ModalContentContainer>
@@ -61,17 +75,21 @@ const PayerSelectModal = ({isVisible, setIsVisible}: ModalPropTypes) => {
           <TitleText fontSize={24}> 결제자를 선택해주세요.</TitleText>
           <Separator marginVertical={15} />
           <ScrollView style={{flex: 1}}>
-            {Array.from({length: 15}).map((item, index) => {
+            {selectedGorup?.participants?.map((participant, index) => {
               return (
                 <React.Fragment key={index}>
-                  <RadioSelector isSelected={true} />
+                  <RadioSelector
+                    onPress={() => setPayer(participant)}
+                    name={participant}
+                    isSelected={participant === payer}
+                  />
                   <SizedBox height={10} />
                 </React.Fragment>
               );
             })}
           </ScrollView>
           <SizedBox height={10} />
-          <Button>
+          <Button onPress={() => setIsVisible(false)}>
             <ButtonText>완료</ButtonText>
           </Button>
         </Padding>
@@ -81,17 +99,42 @@ const PayerSelectModal = ({isVisible, setIsVisible}: ModalPropTypes) => {
 };
 
 const ModifyPaymentScreen = () => {
+  const {params: id} = useRoute();
+  const selectedGorup: GroupTypes = useSelector((state: RootState) =>
+    selectedGroupSelector(state, id ? id : ''),
+  );
+
   const [isVisible, setIsVisible] = useState(false);
+  const [payer, setPayer] = useState('');
+  const [selectedList, setSelectedList] = useState(selectedGorup?.participants);
+
+  const radioToggle = (isSelected: boolean, username: string) => {
+    const temp = [...selectedList];
+    if (isSelected) {
+      temp.splice(selectedList.indexOf(username), 1);
+      setSelectedList(temp);
+    } else {
+      setSelectedList([...temp, username]);
+    }
+  };
 
   return (
     <>
-      <PayerSelectModal isVisible={isVisible} setIsVisible={setIsVisible} />
+      <PayerSelectModal
+        selectedGorup={selectedGorup}
+        payer={payer}
+        setPayer={setPayer}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <ScreenLayout>
         <Padding padding={26}>
-          <TitleText fontSize={28}>이묵돌 독서모임</TitleText>
+          <TitleText fontSize={28}>{selectedGorup?.name}</TitleText>
           <SizedBox height={15} />
           <FatDescription fontSize={18}>
-            {`2022.10.14` + '   /   ' + `11명`}
+            {selectedGorup?.date +
+              '   /   ' +
+              `${selectedGorup?.participants?.length}명`}
           </FatDescription>
         </Padding>
         <Box height={280}>
@@ -105,7 +148,11 @@ const ModifyPaymentScreen = () => {
                 setIsVisible(true);
               }}>
               <FakeUnderLineInput>
-                <Placeholder>결제자를 선택해주세요.</Placeholder>
+                {payer ? (
+                  <SubTitle fontSize={16}>{payer}</SubTitle>
+                ) : (
+                  <Placeholder>결제자를 선택해주세요.</Placeholder>
+                )}
               </FakeUnderLineInput>
             </TouchableOpacity>
             <SizedBox height={10} />
@@ -116,14 +163,21 @@ const ModifyPaymentScreen = () => {
           <Row
             style={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
             <SubTitle fontSize={20}>참여자를 선택해주세요.</SubTitle>
-            <Description fontSize={12}>3명 / 11명</Description>
+            <Description fontSize={12}>
+              {selectedList.length}명 / {selectedGorup?.participants?.length}명
+            </Description>
           </Row>
           <SizedBox height={10} />
           <Separator marginVertical={20} />
-          {Array.from({length: 5}).map((item, index) => {
+          {selectedGorup?.participants?.map((participant, index) => {
+            const isSelected = selectedList.includes(participant);
             return (
               <React.Fragment key={index}>
-                <RadioSelector isSelected={true} />
+                <RadioSelector
+                  onPress={() => radioToggle(isSelected, participant)}
+                  isSelected={isSelected}
+                  name={participant}
+                />
                 <SizedBox height={20} />
               </React.Fragment>
             );

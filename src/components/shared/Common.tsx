@@ -107,8 +107,8 @@ export const UnderLineInput = styled.TextInput`
   border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
     props.theme.colors.text};
   border-bottom-width: 1px;
-  color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.lightText};
+  color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.text};
+  font-weight: 300;
 `;
 
 export const Separator = styled.View`

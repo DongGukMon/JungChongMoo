@@ -1,8 +1,7 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
-import {GroupPayloadTypes, GroupTypes} from '../../types/shared/group';
+import {GroupTypes} from '../../types/shared/group';
 import {RootState} from '../store';
-import {useSelector} from 'react-redux';
 
 export interface GroupsState {}
 
@@ -27,16 +26,15 @@ export const groupsSlice = createSlice({
   },
 });
 
-// const groupsSelector = (state: RootState): GroupsState =>
-//   state || initialState;
+const groupsSelector = (state: RootState): GroupsState =>
+  state.group || initialState;
 
-// export const groupListSelector = createSelector(
-//   groupsSelector,
-//   (groups) => {
-//     Object.values(groups)
-//     return ;
-//   }
-// );
+export const selectedGroupSelector = createSelector(
+  [groupsSelector, (_, id) => id],
+  (groups, id) => {
+    return groups[id as keyof typeof groups];
+  },
+);
 
 export const {makeGorup, editGroup, removeGroup} = groupsSlice.actions;
 

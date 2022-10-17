@@ -26,13 +26,14 @@ const ModifyGroupScreen = () => {
 
   const dispatch = useDispatch();
 
-  const makeNewGorup = () => {
+  const makeNewGorup = (id: string) => {
     dispatch(
       makeGorup({
-        id: uuid.v4() as string,
+        id,
         name: getValues('groupName'),
-        data: getValues('date'),
+        date: getValues('date'),
         participants,
+        payments: [],
       }),
     );
   };
@@ -41,7 +42,7 @@ const ModifyGroupScreen = () => {
 
   const {navigate} = useNavigation();
   const goToGroupDetail = useCallback(
-    () => navigate('GroupDetail' as never),
+    (id: string) => navigate('GroupDetail' as never, id as never),
     [],
   );
 
@@ -116,8 +117,9 @@ const ModifyGroupScreen = () => {
       <MainButton
         disabled={!isValid.current}
         onPress={() => {
-          makeNewGorup();
-          goToGroupDetail();
+          const id = uuid.v4() as string;
+          makeNewGorup(id);
+          goToGroupDetail(id);
         }}
         text="다음"
       />
