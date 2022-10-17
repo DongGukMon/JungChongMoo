@@ -4,9 +4,7 @@ import {Text, TextInput} from 'react-native';
 import {
   Box,
   BoxInput,
-  ButtonText,
   Description,
-  MainButton,
   Padding,
   Row,
   ScreenContainer,
@@ -16,6 +14,7 @@ import {
   TitleText,
   UnderLineInput,
 } from '../components/shared/Common';
+import MainButton from '../components/shared/MainButton';
 
 const ModifyCalculateScreen = () => {
   const {navigate} = useNavigation();
@@ -52,9 +51,7 @@ const ModifyCalculateScreen = () => {
           <BoxInput placeholder="이름을 입력해주세요." />
         </Padding>
       </ScreenContainer>
-      <MainButton onPress={goToGroupDetail}>
-        <ButtonText>다음</ButtonText>
-      </MainButton>
+      <MainButton onPress={goToGroupDetail} text="다음" />
     </>
   );
 };

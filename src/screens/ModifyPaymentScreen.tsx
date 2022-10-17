@@ -6,7 +6,6 @@ import {
   ButtonText,
   Description,
   FatDescription,
-  MainButton,
   Padding,
   Row,
   ScreenContainer,
@@ -21,6 +20,7 @@ import styled from '@emotion/native';
 import {StylePropTypes} from '../types/shared/emotion';
 import ModalLayout from '../components/shared/ModalLayout';
 import {Dimensions, ScrollView, View} from 'react-native';
+import MainButton from '../components/shared/MainButton';
 
 const {height} = Dimensions.get('screen');
 
@@ -58,7 +58,7 @@ const PayerSelectModal = ({isVisible, setIsVisible}: ModalPropTypes) => {
       <ModalContentContainer>
         <Padding padding={16} style={{flex: 1}}>
           <SizedBox height={10} />
-          <TitleText fontSize={24}> 총무를 선택해주세요.</TitleText>
+          <TitleText fontSize={24}> 결제자를 선택해주세요.</TitleText>
           <Separator marginVertical={15} />
           <ScrollView style={{flex: 1}}>
             {Array.from({length: 15}).map((item, index) => {
@@ -131,9 +131,7 @@ const ModifyPaymentScreen = () => {
         </Padding>
         <SizedBox height={100} />
       </ScreenContainer>
-      <MainButton onPress={() => {}}>
-        <ButtonText>등록하기</ButtonText>
-      </MainButton>
+      <MainButton onPress={() => {}} text="등록하기" />
     </>
   );
 };

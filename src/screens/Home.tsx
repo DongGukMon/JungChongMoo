@@ -8,9 +8,8 @@ import {
   ScreenContainer,
   SizedBox,
   Padding,
-  MainButton,
-  ButtonText,
 } from '../components/shared/Common';
+import MainButton from '../components/shared/MainButton';
 
 const Home = () => {
   const {navigate} = useNavigation();
@@ -40,9 +39,7 @@ const Home = () => {
           <SizedBox height={100} />
         </Padding>
       </ScreenContainer>
-      <MainButton onPress={goToModifyCalculate}>
-        <ButtonText>새로운 정산 만들기</ButtonText>
-      </MainButton>
+      <MainButton onPress={goToModifyCalculate} text="새로운 정산 만들기" />
     </>
   );
 };

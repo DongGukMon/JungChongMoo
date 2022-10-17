@@ -48,13 +48,6 @@ export const Button = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const MainButton = styled(Button)`
-  position: absolute;
-  bottom: 56px;
-  align-self: center;
-  width: ${`${width - 52}px`};
-`;
-
 export const ButtonText = styled.Text`
   color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.main};
   font-size: 18px;
