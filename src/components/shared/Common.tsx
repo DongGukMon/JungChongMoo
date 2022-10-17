@@ -29,8 +29,10 @@ export const Padding = styled.View`
 `;
 
 export const Card = styled.TouchableOpacity`
-  height: ${(props: Pick<StylePropTypes, 'height'>) => `${props.height}px`};
+  height: ${(props: Pick<StylePropTypes, 'height'>) =>
+    props.height ? `${props.height}px` : 'auto'};
   width: 100%;
+
   border-radius: 10px;
   background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
     props.theme.colors.box};
@@ -60,7 +62,8 @@ export const ButtonText = styled.Text`
 `;
 
 export const Box = styled.View`
-  height: ${(props: Pick<StylePropTypes, 'height'>) => `${props.height}px`};
+  height: ${(props: Pick<StylePropTypes, 'height'>) =>
+    props.height ? `${props.height}px` : 'auto'};
   width: 100%;
 
   background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
@@ -120,8 +123,8 @@ export const UnderLineInput = styled.TextInput`
 export const Separator = styled.View`
   height: 0.3px;
   width: 100%;
-  margin: ${(props: Pick<StylePropTypes, 'marginHorizontal'>) => {
-    return `${props.marginHorizontal}px 0px`;
+  margin: ${(props: Pick<StylePropTypes, 'marginVertical'>) => {
+    return `${props.marginVertical}px 0px`;
   }};
   background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
     props.theme.colors.text};

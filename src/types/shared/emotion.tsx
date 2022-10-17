@@ -9,6 +9,6 @@ export interface StylePropTypes {
   width?: number;
   padding: number;
   fontSize: number;
-  marginHorizontal: number;
+  marginVertical: number;
   isSelected: boolean;
 }

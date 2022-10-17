@@ -15,7 +15,7 @@ const ResultScreen = () => {
       <Padding padding={26}>
         <TitleText fontSize={28}>정산 결과</TitleText>
       </Padding>
-      <Box height={140}>
+      <Box>
         <Padding padding={26}>
           <TitleText fontSize={24}>이묵돌 독서모임</TitleText>
           <SizedBox height={20} />

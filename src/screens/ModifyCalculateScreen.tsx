@@ -48,7 +48,7 @@ const ModifyCalculateScreen = () => {
             </Description>
             <Description fontSize={12}>현재 11명</Description>
           </Row>
-          <Separator marginHorizontal={20} />
+          <Separator marginVertical={20} />
           <BoxInput placeholder="이름을 입력해주세요." />
         </Padding>
       </ScreenContainer>
