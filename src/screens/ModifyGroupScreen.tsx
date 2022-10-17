@@ -1,13 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import {Text, TextInput} from 'react-native';
+import {KeyboardAvoidingView, Platform, Text, TextInput} from 'react-native';
 import {
   Box,
   BoxInput,
   Description,
   Padding,
   Row,
-  ScreenContainer,
   Separator,
   SizedBox,
   SubTitle,
@@ -16,10 +15,27 @@ import {
 } from '../components/shared/Common';
 import MainButton from '../components/shared/MainButton';
 import {useForm} from 'react-hook-form';
+import ScreenLayout from '../components/shared/ScreenLayout';
+import {useDispatch} from 'react-redux';
+import {makeGorup} from '../redux/slice/gorupsSlice';
+import uuid from 'react-native-uuid';
 
 const ModifyGroupScreen = () => {
   const {watch, getValues, setValue} = useForm();
   const [participants, setParticipants] = useState<string[]>([]);
+
+  const dispatch = useDispatch();
+
+  const makeNewGorup = () => {
+    dispatch(
+      makeGorup({
+        id: uuid.v4() as string,
+        name: getValues('groupName'),
+        data: getValues('date'),
+        participants,
+      }),
+    );
+  };
 
   let isValid = useRef(false);
 
@@ -41,7 +57,7 @@ const ModifyGroupScreen = () => {
 
   return (
     <>
-      <ScreenContainer>
+      <ScreenLayout>
         <Padding padding={26}>
           <TitleText fontSize={28}>새로운 정산 만들기</TitleText>
         </Padding>
@@ -82,6 +98,7 @@ const ModifyGroupScreen = () => {
           {Array.from({length: participants.length + 1}).map((_, index) => {
             return (
               <BoxInput
+                isEmpty={!Boolean(participants[index])}
                 key={index}
                 style={{marginBottom: 10}}
                 placeholder="이름을 입력해주세요."
@@ -94,10 +111,14 @@ const ModifyGroupScreen = () => {
             );
           })}
         </Padding>
-      </ScreenContainer>
+      </ScreenLayout>
+
       <MainButton
         disabled={!isValid.current}
-        onPress={goToGroupDetail}
+        onPress={() => {
+          makeNewGorup();
+          goToGroupDetail();
+        }}
         text="다음"
       />
     </>

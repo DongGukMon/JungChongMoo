@@ -11,4 +11,12 @@ export interface StylePropTypes {
   fontSize: number;
   marginVertical: number;
   isSelected: boolean;
+  isEmpty: boolean;
+}
+
+export interface OptionThemeTypes {
+  theme?: {
+    colors: Record<keyof typeof lightTheme.colors, string>;
+  };
+  isEmpty: boolean;
 }

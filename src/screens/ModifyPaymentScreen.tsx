@@ -8,7 +8,6 @@ import {
   FatDescription,
   Padding,
   Row,
-  ScreenContainer,
   Separator,
   SizedBox,
   SubTitle,
@@ -19,8 +18,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import styled from '@emotion/native';
 import {StylePropTypes} from '../types/shared/emotion';
 import ModalLayout from '../components/shared/ModalLayout';
-import {Dimensions, ScrollView, View} from 'react-native';
+import {Dimensions, ScrollView} from 'react-native';
 import MainButton from '../components/shared/MainButton';
+import ScreenLayout from '../components/shared/ScreenLayout';
 
 const {height} = Dimensions.get('screen');
 
@@ -86,7 +86,7 @@ const ModifyPaymentScreen = () => {
   return (
     <>
       <PayerSelectModal isVisible={isVisible} setIsVisible={setIsVisible} />
-      <ScreenContainer>
+      <ScreenLayout>
         <Padding padding={26}>
           <TitleText fontSize={28}>이묵돌 독서모임</TitleText>
           <SizedBox height={15} />
@@ -130,7 +130,7 @@ const ModifyPaymentScreen = () => {
           })}
         </Padding>
         <SizedBox height={100} />
-      </ScreenContainer>
+      </ScreenLayout>
       <MainButton onPress={() => {}} text="등록하기" />
     </>
   );

@@ -3,7 +3,7 @@ import groupsReducer from './slice/gorupsSlice';
 
 export const store = configureStore({
   reducer: {
-    some: groupsReducer,
+    group: groupsReducer,
   },
 });
 

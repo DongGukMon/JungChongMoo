@@ -2,7 +2,7 @@ export interface GroupTypes {
   id: string;
   name: string;
   data: string;
-  participants: [string];
+  participants: string[];
 }
 
 export interface GroupPayloadTypes {

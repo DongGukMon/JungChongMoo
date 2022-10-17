@@ -1,14 +1,8 @@
 import styled from '@emotion/native';
 import {Dimensions} from 'react-native';
-import {StylePropTypes} from '../../types/shared/emotion';
+import {OptionThemeTypes, StylePropTypes} from '../../types/shared/emotion';
 
 const {width} = Dimensions.get('screen');
-
-export const ScreenContainer = styled.ScrollView`
-  background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.main};
-  flex: 1;
-`;
 
 export const TitleText = styled.Text`
   color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.text};
@@ -94,11 +88,15 @@ export const BoxInput = styled.TextInput`
   height: 56px;
   width: 100%;
   border-radius: 8px;
-  border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.box};
+  border-color: ${(props: OptionThemeTypes) => {
+    if (props.theme) {
+      return props.isEmpty ? props.theme.colors.box : props.theme.colors.text;
+    } else {
+      return 'black';
+    }
+  }};
   border-width: 1px;
-  color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.lightText};
+  color: ${props => props.theme.colors.lightText};
   padding-left: 15px;
 `;
 

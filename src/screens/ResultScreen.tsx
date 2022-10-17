@@ -4,14 +4,14 @@ import {
   Box,
   FatDescription,
   Padding,
-  ScreenContainer,
   SizedBox,
   TitleText,
 } from '../components/shared/Common';
+import ScreenLayout from '../components/shared/ScreenLayout';
 
 const ResultScreen = () => {
   return (
-    <ScreenContainer>
+    <ScreenLayout>
       <Padding padding={26}>
         <TitleText fontSize={28}>정산 결과</TitleText>
       </Padding>
@@ -25,7 +25,7 @@ const ResultScreen = () => {
       <Padding padding={26}>
         <ResultCard />
       </Padding>
-    </ScreenContainer>
+    </ScreenLayout>
   );
 };
 

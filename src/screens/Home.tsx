@@ -3,13 +3,9 @@ import React, {useCallback} from 'react';
 import {Text, View} from 'react-native';
 import AdCarousel from '../components/home/AdCarousel';
 import PrevGroup from '../components/home/PrevGroup';
-import {
-  TitleText,
-  ScreenContainer,
-  SizedBox,
-  Padding,
-} from '../components/shared/Common';
+import {TitleText, SizedBox, Padding} from '../components/shared/Common';
 import MainButton from '../components/shared/MainButton';
+import ScreenLayout from '../components/shared/ScreenLayout';
 
 const Home = () => {
   const {navigate} = useNavigation();
@@ -18,7 +14,7 @@ const Home = () => {
   }, []);
   return (
     <>
-      <ScreenContainer>
+      <ScreenLayout>
         <Padding padding={26}>
           <TitleText fontSize={28}>전자두뇌 정총무</TitleText>
         </Padding>
@@ -37,7 +33,7 @@ const Home = () => {
             );
           })}
         </Padding>
-      </ScreenContainer>
+      </ScreenLayout>
       <MainButton onPress={goToModifyGroup} text="새로운 정산 만들기" />
     </>
   );

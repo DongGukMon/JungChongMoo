@@ -2,19 +2,19 @@ import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
 import Payment from '../components/gruopScreen/Payment';
 import {
   FatDescription,
-  OutlineButton,
-  OutlineButtonText,
   Padding,
   Row,
-  ScreenContainer,
   SizedBox,
   SubTitle,
   TitleText,
 } from '../components/shared/Common';
 import MainButton from '../components/shared/MainButton';
+import ScreenLayout from '../components/shared/ScreenLayout';
+import {RootState} from '../redux/store';
 import {StylePropTypes} from '../types/shared/emotion';
 
 const AddText = styled(SubTitle)`
@@ -23,6 +23,9 @@ const AddText = styled(SubTitle)`
 `;
 
 const GroupDetailScreen = () => {
+  const groups = useSelector((state: RootState) => state.group);
+  console.log(groups);
+
   const {navigate} = useNavigation();
 
   const goToModifyPayment = useCallback(() => {
@@ -35,7 +38,7 @@ const GroupDetailScreen = () => {
 
   return (
     <>
-      <ScreenContainer>
+      <ScreenLayout>
         <Padding padding={26}>
           <TitleText fontSize={28}>이묵돌 독서모임</TitleText>
           <SizedBox height={15} />
@@ -58,12 +61,10 @@ const GroupDetailScreen = () => {
               </React.Fragment>
             );
           })}
-          {/* <OutlineButton onPress={goToModifyPayment}>
-            <OutlineButtonText>결제건 추가하기</OutlineButtonText>
-          </OutlineButton> */}
+
           <SizedBox height={120} />
         </Padding>
-      </ScreenContainer>
+      </ScreenLayout>
       <MainButton onPress={goToResultScreen} text="정산하기" />
     </>
   );
