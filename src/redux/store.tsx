@@ -1,9 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit';
-import someReducer from './slice/someSlice';
+import groupsReducer from './slice/gorupsSlice';
 
 export const store = configureStore({
   reducer: {
-    some: someReducer,
+    some: groupsReducer,
   },
 });
 

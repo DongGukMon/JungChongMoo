@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Text} from 'react-native';
 import GroupDetailScreen from '../screens/GroupDetailScreen';
 import Home from '../screens/Home';
-import ModifyCalculateScreen from '../screens/ModifyCalculateScreen';
+import goToModifyGroupScreen from '../screens/ModifyGroupScreen';
 import ModifyPaymentScreen from '../screens/ModifyPaymentScreen';
 import ResultScreen from '../screens/ResultScreen';
 import {lightTheme} from '../styles/theme';
@@ -20,8 +20,8 @@ function MainStack() {
         }}
       />
       <Stack.Screen
-        name="ModifyCalculateScreen"
-        component={ModifyCalculateScreen}
+        name="ModifyGroup"
+        component={goToModifyGroupScreen}
         options={{
           headerTitle: '',
           headerBackTitleVisible: false,
