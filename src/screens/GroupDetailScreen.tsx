@@ -13,6 +13,7 @@ import {
   TitleText,
 } from '../components/shared/Common';
 import MainButton from '../components/shared/MainButton';
+import RemoveModal from '../components/shared/RemoveModal';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {selectedGroupSelector} from '../redux/slice/gorupsSlice';
 import {RootState} from '../redux/store';
@@ -77,6 +78,7 @@ const GroupDetailScreen = () => {
         </Padding>
       </ScreenLayout>
       <MainButton onPress={goToResultScreen} text="정산하기" />
+      <RemoveModal type="payment" />
     </>
   );
 };

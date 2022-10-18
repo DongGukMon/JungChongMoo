@@ -8,6 +8,7 @@ import {
   SizedBox,
   TitleText,
 } from '../shared/Common';
+import ThreeDots from '../shared/ThreeDots';
 
 interface PaymentPropTypes {
   data: PaymentTypes;
@@ -20,9 +21,7 @@ const Payment = ({onPress: goBack, data}: PaymentPropTypes) => {
       <SizedBox height={10} />
       <Padding padding={16}>
         <TitleText fontSize={22}>{data?.name}</TitleText>
-        <SizedBox height={5} />
-
-        <SizedBox height={20} />
+        <SizedBox height={25} />
         <Row style={{justifyContent: 'space-between', alignItems: 'center'}}>
           <TitleText fontSize={24}>{data.payer}</TitleText>
           <Row style={{alignItems: 'center'}}>
@@ -36,6 +35,7 @@ const Payment = ({onPress: goBack, data}: PaymentPropTypes) => {
         </Row>
       </Padding>
       <SizedBox height={10} />
+      <ThreeDots type="payment" id={data.id} />
     </Card>
   );
 };

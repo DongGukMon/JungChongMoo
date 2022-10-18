@@ -25,15 +25,11 @@ import {GroupTypes} from '../types/shared/group';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {addPayment, selectedGroupSelector} from '../redux/slice/gorupsSlice';
-import {
-  NavigationHelpersContext,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {makePayment} from '../redux/slice/paymentSlice';
 import {useForm} from 'react-hook-form';
 import uuid from 'react-native-uuid';
-import insertComma from '../utils/insertComma';
+import insertComma, {uncomma} from '../utils/insertComma';
 
 const FakeUnderLineInput = styled.View`
   height: 56px;
@@ -126,7 +122,7 @@ const ModifyPaymentScreen = () => {
         id: paymentId,
         name: getValues('paymentName'),
         payer,
-        amount: getValues('amount'),
+        amount: uncomma(getValues('amount')),
         participants: selectedList,
         dateNow: Date.now(),
       }),
@@ -135,7 +131,7 @@ const ModifyPaymentScreen = () => {
       addPayment({
         paymentId,
         groupId,
-        amount: Number(getValues('amount')),
+        amount: Number(uncomma(getValues('amount'))),
       }),
     );
     setValue('paymentName', '');

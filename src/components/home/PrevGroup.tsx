@@ -9,6 +9,7 @@ import {
   SubTitle,
   TitleText,
 } from '../shared/Common';
+import ThreeDots from '../shared/ThreeDots';
 
 interface PrevGroup {
   data: GroupTypes;
@@ -16,6 +17,7 @@ interface PrevGroup {
 }
 
 const PrevGroup = ({data, onPress: goToGroupDetail}: PrevGroup) => {
+  console.log(data.totalPayments);
   return (
     <Card onPress={() => goToGroupDetail(data.id)}>
       <SizedBox height={10} />
@@ -28,11 +30,11 @@ const PrevGroup = ({data, onPress: goToGroupDetail}: PrevGroup) => {
           <TitleText fontSize={24}>
             {insertComma(data?.totalPayments)}원 {'   /   '}
           </TitleText>
-
           <TitleText fontSize={20}>{data.participants?.length}명</TitleText>
         </Row>
       </Padding>
       <SizedBox height={10} />
+      <ThreeDots type="group" id={data.id} />
     </Card>
   );
 };

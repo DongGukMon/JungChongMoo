@@ -1,11 +1,15 @@
 import {configureStore} from '@reduxjs/toolkit';
 import groupsReducer from './slice/gorupsSlice';
-import paymentsSlice from './slice/paymentSlice';
+import paymentsReducer from './slice/paymentSlice';
+import groupRemoveReducer from './slice/groupRemoveSlice';
+import paymentRemoveReducer from './slice/paymentRemoveSlice';
 
 export const store = configureStore({
   reducer: {
     groups: groupsReducer,
-    payments: paymentsSlice,
+    payments: paymentsReducer,
+    groupRemoveData: groupRemoveReducer,
+    paymentRemoveData: paymentRemoveReducer,
   },
 });
 
