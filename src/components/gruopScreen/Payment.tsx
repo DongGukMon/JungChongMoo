@@ -1,4 +1,5 @@
 import {PaymentTypes} from '../../types/shared/payment';
+import insertComma from '../../utils/insertComma';
 import {
   Card,
   FatDescription,
@@ -26,7 +27,7 @@ const Payment = ({onPress: goBack, data}: PaymentPropTypes) => {
           <TitleText fontSize={24}>{data.payer}</TitleText>
           <Row style={{alignItems: 'center'}}>
             <FatDescription fontSize={24}>
-              {data?.amount}원 {'   /   '}
+              {insertComma(data?.amount)}원 {'   /   '}
             </FatDescription>
             <FatDescription fontSize={20}>
               {data?.participants?.length}명

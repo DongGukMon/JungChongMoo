@@ -33,6 +33,7 @@ import {
 import {makePayment} from '../redux/slice/paymentSlice';
 import {useForm} from 'react-hook-form';
 import uuid from 'react-native-uuid';
+import insertComma from '../utils/insertComma';
 
 const FakeUnderLineInput = styled.View`
   height: 56px;
@@ -176,6 +177,7 @@ const ModifyPaymentScreen = () => {
             <SizedBox height={10} />
             <UnderLineInput
               placeholder="결제건의 이름을 입력해주세요."
+              keyboardType="name-phone-pad"
               value={watch('paymentName')}
               onChangeText={(text: string) => setValue('paymentName', text)}
             />
@@ -195,7 +197,8 @@ const ModifyPaymentScreen = () => {
             <SizedBox height={10} />
             <UnderLineInput
               placeholder="결제 금액을 입력해주세요."
-              value={watch('amount')}
+              value={insertComma(watch('amount'))}
+              keyboardType="numeric"
               onChangeText={(text: string) => setValue('amount', text)}
             />
           </Padding>

@@ -1,4 +1,5 @@
 import {GroupTypes} from '../../types/shared/group';
+import insertComma from '../../utils/insertComma';
 import {
   Card,
   FatDescription,
@@ -25,7 +26,7 @@ const PrevGroup = ({data, onPress: goToGroupDetail}: PrevGroup) => {
         <SizedBox height={20} />
         <Row style={{alignItems: 'center'}}>
           <TitleText fontSize={24}>
-            {data.totalPayments}원 {'   /   '}
+            {insertComma(data?.totalPayments)}원 {'   /   '}
           </TitleText>
 
           <TitleText fontSize={20}>{data.participants?.length}명</TitleText>

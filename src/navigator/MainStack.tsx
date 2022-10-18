@@ -17,6 +17,7 @@ function MainStack() {
   const dispatch = useDispatch();
 
   const initializeData = async () => {
+    // AsyncStorage.clear();
     const rawGroups = await AsyncStorage.getItem('groups');
     const rawPayments = await AsyncStorage.getItem('payments');
 
