@@ -7,6 +7,7 @@ import {PaymentTypes} from '../../types/shared/payment';
 interface AddPaymentPropTypes {
   groupId: string;
   paymentId: string;
+  amount: number;
 }
 
 export interface GroupsState {}
@@ -33,6 +34,9 @@ export const groupsSlice = createSlice({
       const id = action.payload.groupId as keyof typeof state;
       const paymentId = action.payload.paymentId;
       state[id]['payments'] = [...state[id]['payments'], paymentId] as never;
+
+      state[id]['totalPayments'] = (state[id]['totalPayments'] +
+        action.payload.amount) as never;
     },
   },
 });

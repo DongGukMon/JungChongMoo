@@ -4,4 +4,6 @@ export interface GroupTypes {
   date: string;
   participants: string[];
   payments: string[];
+  totalPayments: number;
+  dateNow: number;
 }

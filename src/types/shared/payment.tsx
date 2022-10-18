@@ -4,4 +4,5 @@ export interface PaymentTypes {
   payer: string;
   amount: string;
   participants: string[];
+  dateNow: number;
 }

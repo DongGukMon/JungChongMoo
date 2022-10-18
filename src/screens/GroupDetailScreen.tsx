@@ -31,10 +31,11 @@ const GroupDetailScreen = () => {
   const selectedGorup: GroupTypes = useSelector((state: RootState) =>
     selectedGroupSelector(state, id ? id : ''),
   );
-  const groups = useSelector((state: RootState) => state.groups);
-  const payments = useSelector((state: RootState) => state.payments);
-  console.log(groups);
-  console.log(payments);
+
+  const rawPayments = useSelector((state: RootState) => state.payments);
+  const payments = Object.values(rawPayments).sort(
+    (a, b) => b.dateNow - a.dateNow,
+  );
 
   const goToModifyPayment = useCallback((id: Readonly<object | undefined>) => {
     navigate('ModifyPaymentScreen' as never, id as never);
@@ -63,10 +64,10 @@ const GroupDetailScreen = () => {
             </TouchableOpacity>
           </Row>
           <SizedBox height={20} />
-          {Array.from({length: 5}).map((_, index) => {
+          {payments.map(payment => {
             return (
-              <React.Fragment key={index}>
-                <Payment />
+              <React.Fragment key={payment.id}>
+                <Payment onPress={() => {}} data={payment} />
                 <SizedBox height={20} />
               </React.Fragment>
             );

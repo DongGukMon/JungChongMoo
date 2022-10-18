@@ -34,17 +34,19 @@ const ModifyGroupScreen = () => {
         date: getValues('date'),
         participants,
         payments: [],
+        totalPayments: 0,
+        dateNow: Date.now(),
       }),
     );
   };
 
   let isValid = useRef(false);
 
-  const {navigate} = useNavigation();
-  const goToGroupDetail = useCallback(
-    (id: string) => navigate('GroupDetail' as never, id as never),
-    [],
-  );
+  const {navigate, goBack} = useNavigation();
+  const goToGroupDetail = useCallback((id: string) => {
+    goBack();
+    navigate('GroupDetail' as never, id as never);
+  }, []);
 
   const validateInput = (input: string, name: 'groupName' | 'date') => {
     const otherName = name === 'groupName' ? 'date' : 'groupName';

@@ -1,17 +1,29 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import AdCarousel from '../components/home/AdCarousel';
 import PrevGroup from '../components/home/PrevGroup';
 import {TitleText, SizedBox, Padding} from '../components/shared/Common';
 import MainButton from '../components/shared/MainButton';
 import ScreenLayout from '../components/shared/ScreenLayout';
+import {RootState} from '../redux/store';
+import {GroupTypes} from '../types/shared/group';
 
 const Home = () => {
   const {navigate} = useNavigation();
   const goToModifyGroup = useCallback(() => {
     navigate('ModifyGroup' as never);
   }, []);
+
+  const goToGroupDetail = useCallback(
+    (id: string) => navigate('GroupDetail' as never, id as never),
+    [],
+  );
+
+  const rawGroups = useSelector((state: RootState) => state.groups);
+  const groups = Object.values(rawGroups).sort((a, b) => b.dateNow - a.dateNow);
+
   return (
     <>
       <ScreenLayout>
@@ -24,10 +36,10 @@ const Home = () => {
         <Padding padding={26}>
           <TitleText fontSize={24}>지난 정산들</TitleText>
           <SizedBox height={30} />
-          {Array.from({length: 5}).map((item, index) => {
+          {Object.values(groups).map((group: GroupTypes) => {
             return (
-              <React.Fragment key={index}>
-                <PrevGroup />
+              <React.Fragment key={group.id}>
+                <PrevGroup onPress={goToGroupDetail} data={group} />
                 <SizedBox height={20} />
               </React.Fragment>
             );

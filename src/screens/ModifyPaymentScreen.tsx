@@ -127,14 +127,18 @@ const ModifyPaymentScreen = () => {
         payer,
         amount: getValues('amount'),
         participants: selectedList,
+        dateNow: Date.now(),
       }),
     );
     dispatch(
       addPayment({
         paymentId,
         groupId,
+        amount: Number(getValues('amount')),
       }),
     );
+    setValue('paymentName', '');
+    setValue('amount', '');
   };
 
   const radioToggle = (isSelected: boolean, username: string) => {
