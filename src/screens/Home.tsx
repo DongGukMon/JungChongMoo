@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Text, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AdCarousel from '../components/home/AdCarousel';
 import PrevGroup from '../components/home/PrevGroup';
 import {TitleText, SizedBox, Padding} from '../components/shared/Common';
@@ -9,6 +9,8 @@ import MainButton from '../components/shared/MainButton';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {RootState} from '../redux/store';
 import {GroupTypes} from '../types/shared/group';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {initializeGroups} from '../redux/slice/gorupsSlice';
 
 const Home = () => {
   const {navigate} = useNavigation();
@@ -22,6 +24,7 @@ const Home = () => {
   );
 
   const rawGroups = useSelector((state: RootState) => state.groups);
+
   const groups = Object.values(rawGroups).sort((a, b) => b.dateNow - a.dateNow);
 
   return (

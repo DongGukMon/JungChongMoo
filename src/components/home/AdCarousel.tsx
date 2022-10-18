@@ -4,9 +4,11 @@ import {Dimensions} from 'react-native';
 const {width} = Dimensions.get('screen');
 
 const AdContainer = styled.View`
-  width: ${width}px;
+  width: 90%;
   height: 200px;
-  background-color: green;
+  border-color: ${props => props.theme.colors.text};
+  border-width: 2px;
+  align-self: center;
 `;
 
 const AdCarousel = () => {
