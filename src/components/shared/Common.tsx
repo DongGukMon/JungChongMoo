@@ -5,7 +5,7 @@ import {OptionThemeTypes, StylePropTypes} from '../../types/shared/emotion';
 const {width} = Dimensions.get('screen');
 
 export const TitleText = styled.Text`
-  color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.text};
+  color: ${props => props.theme.colors.text};
   font-size: ${(props: Pick<StylePropTypes, 'fontSize'>) =>
     `${props.fontSize}px`};
   font-weight: bold;
@@ -28,22 +28,20 @@ export const Card = styled.TouchableOpacity`
   width: 100%;
 
   border-radius: 10px;
-  background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.box};
+  background-color: ${props => props.theme.colors.box};
 `;
 
 export const Button = styled.TouchableOpacity`
   width: 100%;
   height: 56px;
-  background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.accent};
+  background-color: ${props => props.theme.colors.accent};
   border-radius: 8px;
   justify-content: center;
   align-items: center;
 `;
 
 export const ButtonText = styled.Text`
-  color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.main};
+  color: ${props => props.theme.colors.main};
   font-size: 18px;
   font-weight: bold;
 `;
@@ -53,28 +51,25 @@ export const Box = styled.View`
     props.height ? `${props.height}px` : 'auto'};
   width: 100%;
 
-  background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.box};
+  background-color: ${props => props.theme.colors.box};
 `;
 
 export const SubTitle = styled.Text`
-  color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.text};
+  color: ${props => props.theme.colors.text};
   font-size: ${(props: Pick<StylePropTypes, 'fontSize'>) =>
     `${props.fontSize}px`};
   font-weight: 300;
 `;
 
 export const Description = styled.Text`
-  color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.lightText};
+  color: ${props => props.theme.colors.lightText};
   font-size: ${(props: Pick<StylePropTypes, 'fontSize'>) =>
     `${props.fontSize}px`};
   font-weight: 200;
 `;
 
 export const FatDescription = styled.Text`
-  color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.lightText};
+  color: ${props => props.theme.colors.lightText};
   font-size: ${(props: Pick<StylePropTypes, 'fontSize'>) =>
     `${props.fontSize}px`};
   font-weight: 600;
@@ -104,10 +99,9 @@ export const UnderLineInput = styled.TextInput`
   height: 56px;
   width: 100%;
   font-size: 16px;
-  border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.text};
+  border-color: ${props => props.theme.colors.text};
   border-bottom-width: 1px;
-  color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.text};
+  color: ${props => props.theme.colors.text};
   font-weight: 300;
 `;
 
@@ -117,16 +111,14 @@ export const Separator = styled.View`
   margin: ${(props: Pick<StylePropTypes, 'marginVertical'>) => {
     return `${props.marginVertical}px 0px`;
   }};
-  background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.text};
+  background-color: ${props => props.theme.colors.text};
   align-self: center;
 `;
 
 export const OutlineButton = styled.TouchableOpacity`
   width: 100%;
   height: 56px;
-  border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.accent};
+  border-color: ${props => props.theme.colors.accent};
   border-radius: 8px;
   border-width: 1px;
   justify-content: center;
@@ -134,7 +126,7 @@ export const OutlineButton = styled.TouchableOpacity`
 `;
 
 export const OutlineButtonText = styled.Text`
-  color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.accent};
+  color: ${props => props.theme.colors.accent};
   font-size: 18px;
   font-weight: bold;
 `;

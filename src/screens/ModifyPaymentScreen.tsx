@@ -18,16 +18,21 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import styled from '@emotion/native';
 import {StylePropTypes} from '../types/shared/emotion';
 import ModalLayout from '../components/shared/ModalLayout';
-import {Dimensions, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import MainButton from '../components/shared/MainButton';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {GroupTypes} from '../types/shared/group';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
-import {selectedGroupSelector} from '../redux/slice/gorupsSlice';
-import {useRoute} from '@react-navigation/native';
-
-const {height} = Dimensions.get('screen');
+import {addPayment, selectedGroupSelector} from '../redux/slice/gorupsSlice';
+import {
+  NavigationHelpersContext,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import {makePayment} from '../redux/slice/paymentSlice';
+import {useForm} from 'react-hook-form';
+import uuid from 'react-native-uuid';
 
 const FakeUnderLineInput = styled.View`
   height: 56px;
@@ -100,6 +105,10 @@ const PayerSelectModal = ({
 
 const ModifyPaymentScreen = () => {
   const {params: id} = useRoute();
+  const {goBack} = useNavigation();
+
+  const dispatch = useDispatch();
+
   const selectedGorup: GroupTypes = useSelector((state: RootState) =>
     selectedGroupSelector(state, id ? id : ''),
   );
@@ -107,6 +116,26 @@ const ModifyPaymentScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [payer, setPayer] = useState('');
   const [selectedList, setSelectedList] = useState(selectedGorup?.participants);
+
+  const {getValues, setValue, watch} = useForm();
+
+  const makeNewPaymet = (groupId: string, paymentId: string) => {
+    dispatch(
+      makePayment({
+        id: paymentId,
+        name: getValues('paymentName'),
+        payer,
+        amount: getValues('amount'),
+        participants: selectedList,
+      }),
+    );
+    dispatch(
+      addPayment({
+        paymentId,
+        groupId,
+      }),
+    );
+  };
 
   const radioToggle = (isSelected: boolean, username: string) => {
     const temp = [...selectedList];
@@ -141,7 +170,11 @@ const ModifyPaymentScreen = () => {
           <Padding padding={26}>
             <TitleText fontSize={22}>결제 정보를 입력해주세요.</TitleText>
             <SizedBox height={10} />
-            <UnderLineInput placeholder="결제건의 이름을 입력해주세요." />
+            <UnderLineInput
+              placeholder="결제건의 이름을 입력해주세요."
+              value={watch('paymentName')}
+              onChangeText={(text: string) => setValue('paymentName', text)}
+            />
             <SizedBox height={10} />
             <TouchableOpacity
               onPress={() => {
@@ -156,7 +189,11 @@ const ModifyPaymentScreen = () => {
               </FakeUnderLineInput>
             </TouchableOpacity>
             <SizedBox height={10} />
-            <UnderLineInput placeholder="결제 금액을 입력해주세요." />
+            <UnderLineInput
+              placeholder="결제 금액을 입력해주세요."
+              value={watch('amount')}
+              onChangeText={(text: string) => setValue('amount', text)}
+            />
           </Padding>
         </Box>
         <Padding padding={26}>
@@ -164,7 +201,7 @@ const ModifyPaymentScreen = () => {
             style={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
             <SubTitle fontSize={20}>참여자를 선택해주세요.</SubTitle>
             <Description fontSize={12}>
-              {selectedList.length}명 / {selectedGorup?.participants?.length}명
+              {selectedList?.length}명 / {selectedGorup?.participants?.length}명
             </Description>
           </Row>
           <SizedBox height={10} />
@@ -185,7 +222,17 @@ const ModifyPaymentScreen = () => {
         </Padding>
         <SizedBox height={100} />
       </ScreenLayout>
-      <MainButton onPress={() => {}} text="등록하기" />
+      <MainButton
+        onPress={() => {
+          const paymentId = uuid.v4() as string;
+          if (id) {
+            const groupId = id.toString();
+            makeNewPaymet(groupId, paymentId);
+            goBack();
+          }
+        }}
+        text="등록하기"
+      />
     </>
   );
 };

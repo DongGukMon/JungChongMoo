@@ -31,6 +31,10 @@ const GroupDetailScreen = () => {
   const selectedGorup: GroupTypes = useSelector((state: RootState) =>
     selectedGroupSelector(state, id ? id : ''),
   );
+  const groups = useSelector((state: RootState) => state.groups);
+  const payments = useSelector((state: RootState) => state.payments);
+  console.log(groups);
+  console.log(payments);
 
   const goToModifyPayment = useCallback((id: Readonly<object | undefined>) => {
     navigate('ModifyPaymentScreen' as never, id as never);
