@@ -2,6 +2,7 @@ import styled from '@emotion/native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import Payment from '../components/gruopScreen/Payment';
 import {
@@ -17,6 +18,7 @@ import RemoveModal from '../components/shared/RemoveModal';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {selectedGroupSelector} from '../redux/slice/gorupsSlice';
 import {RootState} from '../redux/store';
+import {lightTheme} from '../styles/theme';
 import {StylePropTypes} from '../types/shared/emotion';
 import {GroupTypes} from '../types/shared/group';
 
@@ -61,7 +63,15 @@ const GroupDetailScreen = () => {
           <Row style={{justifyContent: 'space-between', alignItems: 'center'}}>
             <TitleText fontSize={24}>이번 모임의 결제건</TitleText>
             <TouchableOpacity onPress={() => goToModifyPayment(id)}>
-              <AddText fontSize={20}>추가하기</AddText>
+              <Row style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Icon
+                  name="add-circle"
+                  size={28}
+                  color={lightTheme.colors.accent}
+                />
+                <SizedBox width={5} />
+                <AddText fontSize={20}>추가하기</AddText>
+              </Row>
             </TouchableOpacity>
           </Row>
           <SizedBox height={20} />
