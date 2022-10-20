@@ -2,6 +2,7 @@ export const uncomma = (amount: string | number) => {
   amount = String(amount);
   return amount.toString().replace(/[^\d]+/g, '');
 };
+
 const insertComma = (amount: string | number | undefined) => {
   if (!amount) {
     return undefined;

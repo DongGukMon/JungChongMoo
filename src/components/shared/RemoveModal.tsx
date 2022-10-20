@@ -33,6 +33,10 @@ const RemoveModal = ({type}: {type: 'group' | 'payment'}) => {
     type === 'group' ? state.groupRemoveData : state.paymentRemoveData,
   );
 
+  const paymentsList = useSelector((state: RootState) =>
+    selectedGroupSelector(state, modalData.id),
+  );
+
   const setIsVisible =
     type === 'group'
       ? (status: boolean) => {
@@ -45,15 +49,9 @@ const RemoveModal = ({type}: {type: 'group' | 'payment'}) => {
   const removeData =
     type === 'group'
       ? () => {
-          //invalid hook call 문제 해결해야함.
-          //group만 삭제해버리면 payments들이 계속 남아있게 되기 때문에 group삭제할 때 paymnet 삭제해야함
-          //그냥 allRemove reducer를 만드는게 나을 듯.
-          //   const paymentsList = useSelector((state: RootState) =>
-          //     selectedGroupSelector(state, modalData.id),
-          //   );
-          //   paymentsList.map((paymentId: string) =>
-          //     dispatch(removePayment(paymentId)),
-          //   );
+          paymentsList?.payments?.map((paymentId: string) =>
+            dispatch(removePayment(paymentId)),
+          );
           dispatch(removeGroup(modalData.id));
         }
       : () => dispatch(removePayment(modalData.id));

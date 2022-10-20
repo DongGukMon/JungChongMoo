@@ -26,9 +26,6 @@ const Home = () => {
 
   const groups = Object.values(rawGroups).sort((a, b) => b.dateNow - a.dateNow);
 
-  // AsyncStorage.getItem('payments').then(res => console.log(res));
-  // AsyncStorage.clear();
-
   return (
     <>
       <ScreenLayout>

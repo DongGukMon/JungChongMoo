@@ -17,7 +17,6 @@ interface PrevGroup {
 }
 
 const PrevGroup = ({data, onPress: goToGroupDetail}: PrevGroup) => {
-  console.log(data.totalPayments);
   return (
     <Card onPress={() => goToGroupDetail(data.id)}>
       <SizedBox height={10} />
