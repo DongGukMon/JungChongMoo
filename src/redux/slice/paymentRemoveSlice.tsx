@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export interface PaymentRemoveState {
   isVisible: boolean;
   id: string;
+  groupId?: Readonly<object | undefined>;
 }
 
 const initialState: PaymentRemoveState = {
@@ -17,6 +18,7 @@ const initialState: PaymentRemoveState = {
 export interface PaymentRemoveTypes {
   isVisible: boolean;
   id: string;
+  groupId?: Readonly<object | undefined>;
 }
 
 export const paymentRemoveSlice = createSlice({
@@ -29,19 +31,10 @@ export const paymentRemoveSlice = createSlice({
     ) => {
       state.isVisible = action.payload.isVisible;
       state.id = action.payload.id;
+      action.payload.groupId && (state.groupId = action.payload.groupId);
     },
   },
 });
-
-// const paymentsSelector = (state: RootState): RemoveMotalState =>
-//   state.payments || initialState;
-
-// export const selectedPaymentSelector = createSelector(
-//   [paymentsSelector, (_, id) => id],
-//   (payments, id) => {
-//     return payments[id as keyof typeof payments];
-//   },
-// );
 
 export const {modifyPaymentRemoveData} = paymentRemoveSlice.actions;
 

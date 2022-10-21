@@ -4,11 +4,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   selectedGroupSelector,
   removeGroup,
+  editGroup,
+  removePaymentFromList,
 } from '../../redux/slice/gorupsSlice';
 import {modifyGroupRemoveData} from '../../redux/slice/groupRemoveSlice';
 import {modifyPaymentRemoveData} from '../../redux/slice/paymentRemoveSlice';
 import {removePayment} from '../../redux/slice/paymentSlice';
 import {RootState} from '../../redux/store';
+import {GroupTypes} from '../../types/shared/group';
 import {
   Button,
   ButtonText,
@@ -33,7 +36,7 @@ const RemoveModal = ({type}: {type: 'group' | 'payment'}) => {
     type === 'group' ? state.groupRemoveData : state.paymentRemoveData,
   );
 
-  const paymentsList = useSelector((state: RootState) =>
+  const selectedGroup = useSelector((state: RootState) =>
     selectedGroupSelector(state, modalData.id),
   );
 
@@ -49,12 +52,20 @@ const RemoveModal = ({type}: {type: 'group' | 'payment'}) => {
   const removeData =
     type === 'group'
       ? () => {
-          paymentsList?.payments?.map((paymentId: string) =>
+          selectedGroup?.payments?.map((paymentId: string) =>
             dispatch(removePayment(paymentId)),
           );
           dispatch(removeGroup(modalData.id));
         }
-      : () => dispatch(removePayment(modalData.id));
+      : () => {
+          dispatch(
+            removePaymentFromList({
+              paymentId: modalData.id,
+              groupId: modalData.groupId,
+            }),
+          );
+          dispatch(removePayment(modalData.id));
+        };
 
   return (
     <ModalLayout isVisible={modalData.isVisible} setIsVisible={setIsVisible}>

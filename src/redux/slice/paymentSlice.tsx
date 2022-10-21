@@ -53,6 +53,13 @@ export const selectedPaymentSelector = createSelector(
   },
 );
 
+export const relatedPaymentSelector = createSelector(
+  [paymentsSelector, (_, ids) => ids],
+  (payments, ids) => {
+    return ids.map((id: string) => payments[id]);
+  },
+);
+
 export const {makePayment, editPayment, removePayment, initializePayments} =
   paymentsSlice.actions;
 

@@ -1,3 +1,4 @@
+import {useRoute} from '@react-navigation/native';
 import {RotationGestureHandler} from 'react-native-gesture-handler';
 import ResultCard from '../components/resultScreen/ResultCard';
 import {
@@ -8,8 +9,12 @@ import {
   TitleText,
 } from '../components/shared/Common';
 import ScreenLayout from '../components/shared/ScreenLayout';
+import useCalculate from '../hooks/useCalculate';
 
 const ResultScreen = () => {
+  const {params: id} = useRoute();
+  const inputData = useCalculate(id);
+
   return (
     <ScreenLayout>
       <Padding padding={26}>

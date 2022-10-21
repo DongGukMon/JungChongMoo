@@ -25,7 +25,12 @@ import {GroupTypes} from '../types/shared/group';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {addPayment, selectedGroupSelector} from '../redux/slice/gorupsSlice';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  ParamListBase,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {makePayment} from '../redux/slice/paymentSlice';
 import {useForm} from 'react-hook-form';
 import uuid from 'react-native-uuid';
@@ -102,6 +107,7 @@ const PayerSelectModal = ({
 
 const ModifyPaymentScreen = () => {
   const {params: id} = useRoute();
+
   const {goBack} = useNavigation();
 
   const dispatch = useDispatch();

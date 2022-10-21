@@ -28,7 +28,6 @@ export const groupsSlice = createSlice({
       state,
       action: PayloadAction<{[k: string]: GroupTypes}>,
     ) => {
-      // state = action.payload는 안되는 이유가 뭐야...
       Object.keys(action.payload).map((id: string) => {
         state[id] = action.payload[id];
       });
@@ -56,6 +55,21 @@ export const groupsSlice = createSlice({
         action.payload.amount) as never;
       AsyncStorage.setItem(GROUPS, JSON.stringify(state));
     },
+    removePaymentFromList: (
+      state,
+      action: PayloadAction<{
+        groupId: Readonly<object | undefined>;
+        paymentId: string;
+      }>,
+    ) => {
+      const paymentId = action.payload.paymentId;
+      const groupId = action.payload.groupId as any;
+
+      const idx = state[groupId].payments.indexOf(paymentId);
+      const newPaymentsList = [...state[groupId].payments];
+      if (idx > -1) newPaymentsList.splice(idx, 1);
+      state[groupId].payments = newPaymentsList;
+    },
   },
 });
 
@@ -69,7 +83,13 @@ export const selectedGroupSelector = createSelector(
   },
 );
 
-export const {makeGorup, editGroup, removeGroup, addPayment, initializeGroups} =
-  groupsSlice.actions;
+export const {
+  makeGorup,
+  editGroup,
+  removeGroup,
+  addPayment,
+  initializeGroups,
+  removePaymentFromList,
+} = groupsSlice.actions;
 
 export default groupsSlice.reducer;

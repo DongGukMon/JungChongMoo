@@ -45,7 +45,7 @@ const GroupDetailScreen = () => {
   }, []);
 
   const goToResultScreen = useCallback(() => {
-    navigate('ResultScreen' as never);
+    navigate('ResultScreen' as never, id as never);
   }, []);
 
   return (
@@ -78,7 +78,7 @@ const GroupDetailScreen = () => {
           {payments.map(payment => {
             return (
               <React.Fragment key={payment.id}>
-                <Payment onPress={() => {}} data={payment} />
+                <Payment onPress={() => {}} data={payment} groupId={id} />
                 <SizedBox height={20} />
               </React.Fragment>
             );

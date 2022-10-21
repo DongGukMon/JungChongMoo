@@ -7,6 +7,7 @@ import {modifyPaymentRemoveData} from '../../redux/slice/paymentRemoveSlice';
 interface ThreeDotsPropTypes {
   type: 'group' | 'payment';
   id: string;
+  groupId?: Readonly<object | undefined>;
 }
 
 const DotsContainer = styled.TouchableOpacity`
@@ -19,7 +20,7 @@ const DotsContainer = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const ThreeDots = ({type, id}: ThreeDotsPropTypes) => {
+const ThreeDots = ({type, id, groupId}: ThreeDotsPropTypes) => {
   const dispatch = useDispatch();
   const onPress =
     type === 'group'
@@ -27,7 +28,7 @@ const ThreeDots = ({type, id}: ThreeDotsPropTypes) => {
           dispatch(modifyGroupRemoveData({isVisible: true, id}));
         }
       : () => {
-          dispatch(modifyPaymentRemoveData({isVisible: true, id}));
+          dispatch(modifyPaymentRemoveData({isVisible: true, id, groupId}));
         };
   return (
     <DotsContainer onPress={onPress}>

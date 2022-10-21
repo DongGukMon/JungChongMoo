@@ -13,9 +13,10 @@ import ThreeDots from '../shared/ThreeDots';
 interface PaymentPropTypes {
   data: PaymentTypes;
   onPress: () => void;
+  groupId: Readonly<object | undefined>;
 }
 
-const Payment = ({onPress: goBack, data}: PaymentPropTypes) => {
+const Payment = ({onPress: goBack, data, groupId}: PaymentPropTypes) => {
   return (
     <Card onPress={goBack}>
       <SizedBox height={10} />
@@ -35,7 +36,7 @@ const Payment = ({onPress: goBack, data}: PaymentPropTypes) => {
         </Row>
       </Padding>
       <SizedBox height={10} />
-      <ThreeDots type="payment" id={data.id} />
+      <ThreeDots type="payment" id={data.id} groupId={groupId} />
     </Card>
   );
 };
