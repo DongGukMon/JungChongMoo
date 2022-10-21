@@ -4,13 +4,14 @@ import {relatedPaymentSelector} from '../redux/slice/paymentSlice';
 import {RootState} from '../redux/store';
 import {GroupTypes} from '../types/shared/group';
 import {PaymentTypes} from '../types/shared/payment';
+import {calculate} from '../utils/calculate';
 
 const useCalculate = (id: Readonly<object | undefined>) => {
   if (!id) {
     return {};
   }
   const selectedGorup: GroupTypes = useSelector((state: RootState) =>
-    selectedGroupSelector(state, id ? id : ''),
+    selectedGroupSelector(state, id),
   );
 
   const wholeParticipants = selectedGorup.participants;
@@ -19,22 +20,22 @@ const useCalculate = (id: Readonly<object | undefined>) => {
   const relatedPayments: PaymentTypes[] = useSelector((state: RootState) =>
     relatedPaymentSelector(state, paymentsId),
   );
-  console.log(selectedGorup);
   console.log(relatedPayments);
 
-  //   const neededData = relatedPayments.map(payment => {
-  //     return {
-  //       payer: payment.payer,
-  //       amount: payment.amount,
-  //       participants: payment.participants,
-  //     };
-  //   });
+  const neededData = relatedPayments.map(payment => {
+    return {
+      payer: payment.payer,
+      amount: Number(payment.amount),
+      participants: payment.participants,
+    };
+  });
 
-  //   const inputData = {
-  //     wholeParticipants,
-  //     payments: neededData,
-  //   };
-  //   return inputData;
+  const inputData = {
+    wholeParticipants,
+    payments: neededData,
+  };
+
+  return calculate(inputData);
 };
 
 export default useCalculate;

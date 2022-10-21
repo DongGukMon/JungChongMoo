@@ -25,6 +25,7 @@ const Home = () => {
   const rawGroups = useSelector((state: RootState) => state.groups);
 
   const groups = Object.values(rawGroups).sort((a, b) => b.dateNow - a.dateNow);
+  // AsyncStorage.clear();
 
   return (
     <>

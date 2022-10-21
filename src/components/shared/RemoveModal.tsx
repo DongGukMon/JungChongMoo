@@ -9,7 +9,10 @@ import {
 } from '../../redux/slice/gorupsSlice';
 import {modifyGroupRemoveData} from '../../redux/slice/groupRemoveSlice';
 import {modifyPaymentRemoveData} from '../../redux/slice/paymentRemoveSlice';
-import {removePayment} from '../../redux/slice/paymentSlice';
+import {
+  removePayment,
+  selectedPaymentSelector,
+} from '../../redux/slice/paymentSlice';
 import {RootState} from '../../redux/store';
 import {GroupTypes} from '../../types/shared/group';
 import {
@@ -40,6 +43,10 @@ const RemoveModal = ({type}: {type: 'group' | 'payment'}) => {
     selectedGroupSelector(state, modalData.id),
   );
 
+  const selectedPayment = useSelector((state: RootState) =>
+    selectedPaymentSelector(state, modalData.id),
+  );
+
   const setIsVisible =
     type === 'group'
       ? (status: boolean) => {
@@ -62,6 +69,7 @@ const RemoveModal = ({type}: {type: 'group' | 'payment'}) => {
             removePaymentFromList({
               paymentId: modalData.id,
               groupId: modalData.groupId,
+              amount: Number(selectedPayment.amount),
             }),
           );
           dispatch(removePayment(modalData.id));

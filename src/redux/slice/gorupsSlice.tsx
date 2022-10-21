@@ -60,15 +60,19 @@ export const groupsSlice = createSlice({
       action: PayloadAction<{
         groupId: Readonly<object | undefined>;
         paymentId: string;
+        amount: number;
       }>,
     ) => {
       const paymentId = action.payload.paymentId;
       const groupId = action.payload.groupId as any;
-
       const idx = state[groupId].payments.indexOf(paymentId);
       const newPaymentsList = [...state[groupId].payments];
       if (idx > -1) newPaymentsList.splice(idx, 1);
       state[groupId].payments = newPaymentsList;
+
+      state[groupId].totalPayments =
+        state[groupId].totalPayments - action.payload.amount;
+      AsyncStorage.setItem(GROUPS, JSON.stringify(state));
     },
   },
 });
