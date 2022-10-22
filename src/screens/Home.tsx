@@ -38,14 +38,9 @@ const Home = () => {
         <Padding padding={26}>
           <TitleText fontSize={24}>지난 정산들</TitleText>
           <SizedBox height={30} />
-          {Object.values(groups).map((group: GroupTypes) => {
-            return (
-              <React.Fragment key={group.id}>
-                <PrevGroup onPress={goToGroupDetail} data={group} />
-                <SizedBox height={20} />
-              </React.Fragment>
-            );
-          })}
+          {Object.values(groups).map((group: GroupTypes) => (
+            <PrevGroup key={group.id} onPress={goToGroupDetail} data={group} />
+          ))}
         </Padding>
       </ScreenLayout>
       <MainButton onPress={goToModifyGroup} text="새로운 정산 만들기" />

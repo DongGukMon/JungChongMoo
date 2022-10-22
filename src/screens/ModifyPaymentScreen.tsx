@@ -5,8 +5,10 @@ import {
   Button,
   ButtonText,
   Description,
+  FakeUnderLineInput,
   FatDescription,
   Padding,
+  Placeholder,
   Row,
   Separator,
   SizedBox,
@@ -36,21 +38,6 @@ import {useForm} from 'react-hook-form';
 import uuid from 'react-native-uuid';
 import insertComma, {uncomma} from '../utils/insertComma';
 import AlertModal from '../components/shared/AlertModal';
-
-const FakeUnderLineInput = styled.View`
-  height: 56px;
-  width: 100%;
-  font-size: 16px;
-  border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.text};
-  border-bottom-width: 1px;
-  justify-content: center;
-`;
-
-const Placeholder = styled.Text`
-  font-size: 16px;
-  color: #c5c5c9;
-`;
 
 const ModalContentContainer = styled.View`
   height: 50%;
@@ -187,6 +174,7 @@ const ModifyPaymentScreen = () => {
             <TitleText fontSize={22}>결제 정보를 입력해주세요.</TitleText>
             <SizedBox height={10} />
             <UnderLineInput
+              maxLength={13}
               placeholder="결제건의 이름을 입력해주세요."
               keyboardType="name-phone-pad"
               value={watch('paymentName')}
@@ -244,8 +232,8 @@ const ModifyPaymentScreen = () => {
         disabled={!isValid}
         onPress={() => {
           const paymentId = uuid.v4() as string;
-          if (isValid) {
-            setIsVisible(true);
+          if (!isValid) {
+            setAlertVisible(true);
             return;
           }
           if (id) {

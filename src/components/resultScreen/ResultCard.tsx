@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text} from 'react-native';
 import {ResultObjTpyes} from '../../utils/calculate';
 import insertComma from '../../utils/insertComma';
 import {
@@ -42,13 +43,19 @@ const TradeRow = ({giver, amount}: {giver: string; amount: number}) => {
 };
 
 const ResultCard = ({name, data, rawData}: ResultCardPropTypes) => {
-  console.log(data);
   return (
     <Card>
       <SizedBox height={10} />
       <Padding padding={16}>
         <Row style={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
-          <SubTitle fontSize={22}>{name}에게 입금해주세요</SubTitle>
+          <Row style={{alignItems: 'center'}}>
+            <SubTitle fontSize={20} style={{fontWeight: '600'}}>
+              {name}{' '}
+              <Text style={{fontSize: 16, fontWeight: '300'}}>
+                에게 입금해주세요.
+              </Text>
+            </SubTitle>
+          </Row>
           <FatDescription fontSize={14}>
             {insertComma(rawData[name])}원
           </FatDescription>
@@ -71,7 +78,7 @@ const ResultCard = ({name, data, rawData}: ResultCardPropTypes) => {
               giver={
                 data.extra.type === 'plus'
                   ? '감사히 잘 쓰겠습니다.'
-                  : '제가 통크게 쏩니다'
+                  : `${name}이(가) 쏩니다`
               }
               amount={data.extra.amount}
             />

@@ -131,3 +131,18 @@ export const OutlineButtonText = styled.Text`
   font-size: 18px;
   font-weight: bold;
 `;
+
+export const FakeUnderLineInput = styled.View`
+  height: 56px;
+  width: 100%;
+  font-size: 16px;
+  border-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
+    props.theme.colors.text};
+  border-bottom-width: 1px;
+  justify-content: center;
+`;
+
+export const Placeholder = styled.Text`
+  font-size: 16px;
+  color: #c5c5c9;
+`;

@@ -1,11 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import {KeyboardAvoidingView, Platform, Text, TextInput} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {
   Box,
   BoxInput,
   Description,
+  FakeUnderLineInput,
   Padding,
+  Placeholder,
   Row,
   Separator,
   SizedBox,
@@ -20,11 +28,13 @@ import {useDispatch} from 'react-redux';
 import {makeGorup} from '../redux/slice/gorupsSlice';
 import uuid from 'react-native-uuid';
 import AlertModal from '../components/shared/AlertModal';
+import CalendalModal from '../components/gruopScreen/CalendalModal';
 
 const ModifyGroupScreen = () => {
   const {watch, getValues, setValue} = useForm();
   const [participants, setParticipants] = useState<string[]>([]);
-
+  const [date, setDate] = useState('');
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -51,8 +61,10 @@ const ModifyGroupScreen = () => {
 
   const isValid =
     Boolean(watch('groupName')) &&
-    Boolean(watch('date')) &&
+    Boolean(date) &&
     participants.filter(item => item.length !== 0).length !== 0;
+
+  console.log(date);
 
   return (
     <>
@@ -65,6 +77,7 @@ const ModifyGroupScreen = () => {
             <TitleText fontSize={22}>어떤 모임인가요?</TitleText>
             <SizedBox height={10} />
             <UnderLineInput
+              maxLength={13}
               placeholder="모임명을 입력해주세요."
               value={watch('groupName')}
               onChangeText={(text: string) => {
@@ -72,13 +85,25 @@ const ModifyGroupScreen = () => {
               }}
             />
             <SizedBox height={10} />
-            <UnderLineInput
+            <TouchableOpacity
+              onPress={() => {
+                setDatePickerVisible(true);
+              }}>
+              <FakeUnderLineInput>
+                {date ? (
+                  <SubTitle fontSize={16}>{date}</SubTitle>
+                ) : (
+                  <Placeholder>날짜를 입력해주세요.</Placeholder>
+                )}
+              </FakeUnderLineInput>
+            </TouchableOpacity>
+            {/* <UnderLineInput
               placeholder="날짜를 입력해주세요."
               value={watch('date')}
               onChangeText={(text: string) => {
                 setValue('date', text);
               }}
-            />
+            /> */}
           </Padding>
         </Box>
         <Padding padding={26}>
@@ -97,6 +122,7 @@ const ModifyGroupScreen = () => {
           {Array.from({length: participants.length + 1}).map((_, index) => {
             return (
               <BoxInput
+                maxLength={6}
                 isEmpty={!Boolean(participants[index])}
                 key={index}
                 style={{marginBottom: 10}}
@@ -111,6 +137,11 @@ const ModifyGroupScreen = () => {
           })}
         </Padding>
         <AlertModal isVisible={isVisible} setIsVisible={setIsVisible} />
+        <CalendalModal
+          isVisible={datePickerVisible}
+          setIsVisible={setDatePickerVisible}
+          setDate={setDate}
+        />
       </ScreenLayout>
 
       <MainButton
