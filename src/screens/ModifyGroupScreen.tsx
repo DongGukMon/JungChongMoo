@@ -44,7 +44,7 @@ const ModifyGroupScreen = () => {
       makeGorup({
         id,
         name: getValues('groupName'),
-        date: getValues('date'),
+        date,
         participants: participants.filter(item => item.length !== 0),
         payments: [],
         totalPayments: 0,
@@ -97,13 +97,6 @@ const ModifyGroupScreen = () => {
                 )}
               </FakeUnderLineInput>
             </TouchableOpacity>
-            {/* <UnderLineInput
-              placeholder="날짜를 입력해주세요."
-              value={watch('date')}
-              onChangeText={(text: string) => {
-                setValue('date', text);
-              }}
-            /> */}
           </Padding>
         </Box>
         <Padding padding={26}>

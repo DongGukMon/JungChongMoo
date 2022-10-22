@@ -92,7 +92,11 @@ const GroupDetailScreen = () => {
           <SizedBox height={120} />
         </Padding>
       </ScreenLayout>
-      <MainButton onPress={goToResultScreen} text="정산하기" />
+      <MainButton
+        disabled={payments.length === 0}
+        onPress={goToResultScreen}
+        text="정산하기"
+      />
       <RemoveModal type="payment" />
     </>
   );

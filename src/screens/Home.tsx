@@ -43,7 +43,7 @@ const Home = () => {
           ))}
         </Padding>
       </ScreenLayout>
-      <MainButton onPress={goToModifyGroup} text="새로운 정산 만들기" />
+      <MainButton onPress={goToModifyGroup} text="새로운 그룹 만들기" />
       <RemoveModal type="group" />
     </>
   );
