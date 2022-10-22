@@ -19,10 +19,13 @@ import ScreenLayout from '../components/shared/ScreenLayout';
 import {useDispatch} from 'react-redux';
 import {makeGorup} from '../redux/slice/gorupsSlice';
 import uuid from 'react-native-uuid';
+import AlertModal from '../components/shared/AlertModal';
 
 const ModifyGroupScreen = () => {
   const {watch, getValues, setValue} = useForm();
   const [participants, setParticipants] = useState<string[]>([]);
+
+  const [isVisible, setIsVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,7 +35,7 @@ const ModifyGroupScreen = () => {
         id,
         name: getValues('groupName'),
         date: getValues('date'),
-        participants,
+        participants: participants.filter(item => item.length !== 0),
         payments: [],
         totalPayments: 0,
         dateNow: Date.now(),
@@ -40,23 +43,16 @@ const ModifyGroupScreen = () => {
     );
   };
 
-  let isValid = useRef(false);
-
   const {navigate, goBack} = useNavigation();
   const goToGroupDetail = useCallback((id: string) => {
     goBack();
     navigate('GroupDetail' as never, id as never);
   }, []);
 
-  const validateInput = (input: string, name: 'groupName' | 'date') => {
-    const otherName = name === 'groupName' ? 'date' : 'groupName';
-    if (input.length === 0) {
-      isValid.current = false;
-    } else if (Boolean(getValues(otherName)) && isValid.current === false) {
-      isValid.current = true;
-    }
-    setValue(name, input);
-  };
+  const isValid =
+    Boolean(watch('groupName')) &&
+    Boolean(watch('date')) &&
+    participants.filter(item => item.length !== 0).length !== 0;
 
   return (
     <>
@@ -72,7 +68,7 @@ const ModifyGroupScreen = () => {
               placeholder="모임명을 입력해주세요."
               value={watch('groupName')}
               onChangeText={(text: string) => {
-                validateInput(text, 'groupName');
+                setValue('groupName', text);
               }}
             />
             <SizedBox height={10} />
@@ -80,7 +76,7 @@ const ModifyGroupScreen = () => {
               placeholder="날짜를 입력해주세요."
               value={watch('date')}
               onChangeText={(text: string) => {
-                validateInput(text, 'date');
+                setValue('date', text);
               }}
             />
           </Padding>
@@ -114,11 +110,16 @@ const ModifyGroupScreen = () => {
             );
           })}
         </Padding>
+        <AlertModal isVisible={isVisible} setIsVisible={setIsVisible} />
       </ScreenLayout>
 
       <MainButton
-        disabled={!isValid.current}
+        disabled={!isValid}
         onPress={() => {
+          if (participants.length === 0) {
+            setIsVisible(true);
+            return;
+          }
           const id = uuid.v4() as string;
           makeNewGorup(id);
           goToGroupDetail(id);

@@ -27,7 +27,8 @@ const PrevGroup = ({data, onPress: goToGroupDetail}: PrevGroup) => {
         <SizedBox height={20} />
         <Row style={{alignItems: 'center'}}>
           <TitleText fontSize={24}>
-            {insertComma(data?.totalPayments)}원 {'   /   '}
+            {data?.totalPayments !== 0 ? insertComma(data?.totalPayments) : 0}{' '}
+            원 {'   /   '}
           </TitleText>
           <TitleText fontSize={20}>{data.participants?.length}명</TitleText>
         </Row>

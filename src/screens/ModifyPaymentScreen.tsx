@@ -35,6 +35,7 @@ import {makePayment} from '../redux/slice/paymentSlice';
 import {useForm} from 'react-hook-form';
 import uuid from 'react-native-uuid';
 import insertComma, {uncomma} from '../utils/insertComma';
+import AlertModal from '../components/shared/AlertModal';
 
 const FakeUnderLineInput = styled.View`
   height: 56px;
@@ -117,6 +118,8 @@ const ModifyPaymentScreen = () => {
   );
 
   const [isVisible, setIsVisible] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
+
   const [payer, setPayer] = useState('');
   const [selectedList, setSelectedList] = useState(selectedGorup?.participants);
 
@@ -153,6 +156,12 @@ const ModifyPaymentScreen = () => {
       setSelectedList([...temp, username]);
     }
   };
+
+  const isValid =
+    Boolean(watch('paymentName')) &&
+    Boolean(watch('amount')) &&
+    payer.length !== 0 &&
+    selectedList.length !== 0;
 
   return (
     <>
@@ -232,8 +241,13 @@ const ModifyPaymentScreen = () => {
         <SizedBox height={100} />
       </ScreenLayout>
       <MainButton
+        disabled={!isValid}
         onPress={() => {
           const paymentId = uuid.v4() as string;
+          if (isValid) {
+            setIsVisible(true);
+            return;
+          }
           if (id) {
             const groupId = id.toString();
             makeNewPaymet(groupId, paymentId);
@@ -242,6 +256,7 @@ const ModifyPaymentScreen = () => {
         }}
         text="등록하기"
       />
+      <AlertModal isVisible={alertVisible} setIsVisible={setAlertVisible} />
     </>
   );
 };

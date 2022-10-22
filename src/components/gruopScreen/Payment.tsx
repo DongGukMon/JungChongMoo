@@ -27,7 +27,7 @@ const Payment = ({onPress: goBack, data, groupId}: PaymentPropTypes) => {
           <TitleText fontSize={24}>{data.payer}</TitleText>
           <Row style={{alignItems: 'center'}}>
             <FatDescription fontSize={24}>
-              {insertComma(data?.amount)}원 {'   /   '}
+              {insertComma(data.amount)}원 {'   /   '}
             </FatDescription>
             <FatDescription fontSize={20}>
               {data?.participants?.length}명

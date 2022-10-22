@@ -17,10 +17,12 @@ import MainButton from '../components/shared/MainButton';
 import RemoveModal from '../components/shared/RemoveModal';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {selectedGroupSelector} from '../redux/slice/gorupsSlice';
+import {relatedPaymentSelector} from '../redux/slice/paymentSlice';
 import {RootState} from '../redux/store';
 import {lightTheme} from '../styles/theme';
 import {StylePropTypes} from '../types/shared/emotion';
 import {GroupTypes} from '../types/shared/group';
+import {PaymentTypes} from '../types/shared/payment';
 
 const AddText = styled(SubTitle)`
   color: ${(props: Pick<StylePropTypes, 'theme'>) => props.theme.colors.accent};
@@ -35,7 +37,10 @@ const GroupDetailScreen = () => {
     selectedGroupSelector(state, id ? id : ''),
   );
 
-  const rawPayments = useSelector((state: RootState) => state.payments);
+  const rawPayments: PaymentTypes[] = useSelector((state: RootState) =>
+    relatedPaymentSelector(state, selectedGorup.payments),
+  );
+
   const payments = Object.values(rawPayments).sort(
     (a, b) => b.dateNow - a.dateNow,
   );
@@ -75,14 +80,14 @@ const GroupDetailScreen = () => {
             </TouchableOpacity>
           </Row>
           <SizedBox height={20} />
-          {payments.map(payment => {
-            return (
-              <React.Fragment key={payment.id}>
-                <Payment onPress={() => {}} data={payment} groupId={id} />
-                <SizedBox height={20} />
-              </React.Fragment>
-            );
-          })}
+          {payments.map(payment => (
+            <Payment
+              key={payment.id}
+              onPress={() => {}}
+              data={payment}
+              groupId={id}
+            />
+          ))}
 
           <SizedBox height={120} />
         </Padding>
