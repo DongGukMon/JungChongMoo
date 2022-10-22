@@ -4,9 +4,18 @@ import {relatedPaymentSelector} from '../redux/slice/paymentSlice';
 import {RootState} from '../redux/store';
 import {GroupTypes} from '../types/shared/group';
 import {PaymentTypes} from '../types/shared/payment';
-import {calculate} from '../utils/calculate';
+import {
+  calculate,
+  NormalizedDataObjFormTypes,
+  ResultObjTpyes,
+} from '../utils/calculate';
 
-const useCalculate = (id: Readonly<object | undefined>) => {
+const useCalculate = (
+  id: Readonly<object | undefined>,
+): {
+  normalizedData?: NormalizedDataObjFormTypes;
+  resultObj?: ResultObjTpyes;
+} => {
   if (!id) {
     return {};
   }
@@ -20,7 +29,6 @@ const useCalculate = (id: Readonly<object | undefined>) => {
   const relatedPayments: PaymentTypes[] = useSelector((state: RootState) =>
     relatedPaymentSelector(state, paymentsId),
   );
-  
 
   const neededData = relatedPayments.map(payment => {
     return {

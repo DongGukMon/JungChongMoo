@@ -1,4 +1,5 @@
 import {useRoute} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 import ResultCard from '../components/resultScreen/ResultCard';
 import {
   Box,
@@ -9,10 +10,21 @@ import {
 } from '../components/shared/Common';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import useCalculate from '../hooks/useCalculate';
+import {selectedGroupSelector} from '../redux/slice/gorupsSlice';
+import {RootState} from '../redux/store';
+import insertComma from '../utils/insertComma';
 
 const ResultScreen = () => {
   const {params: id} = useRoute();
-  const resultData = useCalculate(id);
+  const {normalizedData, resultObj: resultData} = useCalculate(id);
+  if (!resultData || !normalizedData) {
+    return <></>;
+  }
+  const selectedGroup = useSelector((state: RootState) =>
+    selectedGroupSelector(state, id ? id : ''),
+  );
+
+  console.log(resultData);
 
   return (
     <ScreenLayout>
@@ -21,13 +33,24 @@ const ResultScreen = () => {
       </Padding>
       <Box>
         <Padding padding={26}>
-          <TitleText fontSize={24}>이묵돌 독서모임</TitleText>
+          <TitleText fontSize={24}>{selectedGroup.name}</TitleText>
           <SizedBox height={20} />
-          <FatDescription fontSize={24}>총 결제 금액: 125,000원</FatDescription>
+          <FatDescription fontSize={24}>
+            총 결제 금액: {insertComma(selectedGroup.totalPayments)}원
+          </FatDescription>
         </Padding>
       </Box>
       <Padding padding={26}>
-        <ResultCard />
+        {Object.keys(resultData).map(name => {
+          return (
+            <ResultCard
+              name={name}
+              rawData={normalizedData}
+              data={resultData[name]}
+              key={name}
+            />
+          );
+        })}
       </Padding>
     </ScreenLayout>
   );

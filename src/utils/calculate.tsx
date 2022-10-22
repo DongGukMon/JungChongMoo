@@ -11,7 +11,11 @@ interface InputDataTypes {
 
 type NormalizedDataTypes = (string | number)[][];
 
-interface ResultObjTpyes {
+export interface NormalizedDataObjFormTypes {
+  [name: string]: number;
+}
+
+export interface ResultObjTpyes {
   [name: string]: {
     trades: {
       taker: string | number;
@@ -33,15 +37,18 @@ const updateResultObj = (
   resultObj: ResultObjTpyes,
 ) => {
   return {
+    ...resultObj[taker],
     trades: [...(resultObj[taker]?.trades || []), {taker, giver, amount}],
     totalAmount: resultObj[taker]?.totalAmount
-      ? resultObj[taker].totalAmount + amount
+      ? resultObj[taker]?.totalAmount + amount
       : amount,
   };
 };
 
 // 전체 paymnets를 분석해 {name:액수} 형태로 각각 얼마를 주거나 받아야하는지 데이터 재구조화
-export const normalizeData = (inputData: InputDataTypes) => {
+export const normalizeData = (
+  inputData: InputDataTypes,
+): {objForm: NormalizedDataObjFormTypes; arrForm: NormalizedDataTypes} => {
   //+는 받아야할 돈, -는 내야할 돈으로 정의
 
   const resultObj: {[name: string]: number} = {};
@@ -130,7 +137,7 @@ export const calculate = (inputData: InputDataTypes) => {
 
   Object.keys(resultObj).map((name: string) => {
     const difference =
-      normalizedDataObjForm[name] - resultObj[name].totalAmount;
+      normalizedDataObjForm[name] - resultObj[name]?.totalAmount;
     //원래 받아야할 돈 보다 덜 받았을 때
     if (difference > 0) {
       resultObj[name].extra = {type: 'minus', amount: difference};
@@ -139,36 +146,5 @@ export const calculate = (inputData: InputDataTypes) => {
     }
   });
 
-  console.log(JSON.stringify(resultObj));
+  return {normalizedData: normalizedDataObjForm, resultObj};
 };
-
-// interface GroupTypes {
-//     id: string;
-//     name: string;
-//     date: string;
-//     participants: string[];
-//     payments: string[];
-//     totalPayments: number;
-//     dateNow: number;
-// }
-
-// interface PaymentTypes {
-//     id: string;
-//     name: string;
-//     payer: string;
-//     amount: string;
-//     participants: string[];
-//     dateNow: number;
-// }
-
-// {
-//     id:{
-//         id:
-//         name:
-//         date:
-//         payments:{
-//             id[]
-//         }
-//         ...
-//     }
-// }
