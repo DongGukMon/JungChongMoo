@@ -20,7 +20,7 @@ const useCalculate = (id: Readonly<object | undefined>) => {
   const relatedPayments: PaymentTypes[] = useSelector((state: RootState) =>
     relatedPaymentSelector(state, paymentsId),
   );
-  console.log(relatedPayments);
+  
 
   const neededData = relatedPayments.map(payment => {
     return {
