@@ -94,7 +94,9 @@ const ModifyGroupScreen = () => {
     <>
       <ScreenLayout>
         <Padding padding={26}>
-          <TitleText fontSize={28}>새로운 정산 만들기</TitleText>
+          <TitleText fontSize={28}>
+            {isModify ? '그룹 정보 수정하기' : '새로운 정산 만들기'}
+          </TitleText>
         </Padding>
         <Box height={220}>
           <Padding padding={26}>
