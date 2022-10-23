@@ -32,7 +32,8 @@ export const paymentsSlice = createSlice({
       AsyncStorage.setItem(PAYMENTS, JSON.stringify(state));
     },
     editPayment: (state, action: PayloadAction<PaymentTypes>) => {
-      state = {...state, [action.payload.id]: action.payload};
+      const id = action.payload.id as keyof typeof state;
+      state[id] = action.payload as never;
       AsyncStorage.setItem(PAYMENTS, JSON.stringify(state));
     },
     removePayment: (state, action: PayloadAction<unknown>) => {

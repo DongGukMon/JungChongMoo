@@ -24,8 +24,6 @@ const ResultScreen = () => {
     selectedGroupSelector(state, id ? id : ''),
   );
 
-  console.log(resultData);
-
   return (
     <ScreenLayout>
       <Padding padding={26}>

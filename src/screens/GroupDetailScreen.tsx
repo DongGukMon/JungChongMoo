@@ -1,6 +1,6 @@
 import styled from '@emotion/native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
@@ -29,8 +29,12 @@ const AddText = styled(SubTitle)`
   font-weight: 600;
 `;
 
+const SettingBtn = styled.TouchableOpacity`
+  margin-right: 10px;
+`;
+
 const GroupDetailScreen = () => {
-  const {navigate} = useNavigation();
+  const {navigate, setOptions} = useNavigation();
   const {params: id} = useRoute();
 
   const selectedGorup: GroupTypes = useSelector((state: RootState) =>
@@ -45,12 +49,32 @@ const GroupDetailScreen = () => {
     (a, b) => b.dateNow - a.dateNow,
   );
 
-  const goToModifyPayment = useCallback((id: Readonly<object | undefined>) => {
-    navigate('ModifyPaymentScreen' as never, id as never);
-  }, []);
+  const goToModifyPayment = useCallback(
+    (id: Readonly<object | undefined>, paymentData?: PaymentTypes) => {
+      navigate(
+        'ModifyPaymentScreen' as never,
+        {groupId: id, paymentData} as never,
+      );
+    },
+    [],
+  );
 
   const goToResultScreen = useCallback(() => {
     navigate('ResultScreen' as never, id as never);
+  }, []);
+
+  const goToModifyGroup = useCallback(() => {
+    navigate('ModifyGroup' as never, selectedGorup as never);
+  }, []);
+
+  useEffect(() => {
+    setOptions({
+      headerRight: () => (
+        <SettingBtn onPress={goToModifyGroup}>
+          <Icon name="settings" size={24} />
+        </SettingBtn>
+      ),
+    });
   }, []);
 
   return (
@@ -83,7 +107,7 @@ const GroupDetailScreen = () => {
           {payments.map(payment => (
             <Payment
               key={payment.id}
-              onPress={() => {}}
+              onPress={() => goToModifyPayment(id, payment)}
               data={payment}
               groupId={id}
             />

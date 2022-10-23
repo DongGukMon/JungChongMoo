@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import RadioSelector from '../components/shared/RadioSelector';
 import {
   Box,
@@ -26,18 +26,23 @@ import ScreenLayout from '../components/shared/ScreenLayout';
 import {GroupTypes} from '../types/shared/group';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
-import {addPayment, selectedGroupSelector} from '../redux/slice/gorupsSlice';
+import {
+  addPayment,
+  editGroup,
+  selectedGroupSelector,
+} from '../redux/slice/gorupsSlice';
 import {
   ParamListBase,
   RouteProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import {makePayment} from '../redux/slice/paymentSlice';
+import {editPayment, makePayment} from '../redux/slice/paymentSlice';
 import {useForm} from 'react-hook-form';
 import uuid from 'react-native-uuid';
 import insertComma, {uncomma} from '../utils/insertComma';
 import AlertModal from '../components/shared/AlertModal';
+import {PaymentTypes} from '../types/shared/payment';
 
 const ModalContentContainer = styled.View`
   height: 50%;
@@ -94,12 +99,16 @@ const PayerSelectModal = ({
 };
 
 const ModifyPaymentScreen = () => {
-  const {params: id} = useRoute();
+  const {params} = useRoute();
+  const {groupId: id, paymentData} = params as {
+    groupId: string;
+    paymentData: PaymentTypes;
+  };
+
+  const isModify = Boolean(paymentData);
 
   const {goBack} = useNavigation();
-
   const dispatch = useDispatch();
-
   const selectedGorup: GroupTypes = useSelector((state: RootState) =>
     selectedGroupSelector(state, id ? id : ''),
   );
@@ -112,7 +121,7 @@ const ModifyPaymentScreen = () => {
 
   const {getValues, setValue, watch} = useForm();
 
-  const makeNewPaymet = (groupId: string, paymentId: string) => {
+  const makeNewPayment = (groupId: string, paymentId: string) => {
     dispatch(
       makePayment({
         id: paymentId,
@@ -130,8 +139,28 @@ const ModifyPaymentScreen = () => {
         amount: Number(uncomma(getValues('amount'))),
       }),
     );
-    setValue('paymentName', '');
-    setValue('amount', '');
+  };
+
+  const modifyPayment = () => {
+    dispatch(
+      editPayment({
+        id: paymentData.id,
+        name: getValues('paymentName'),
+        payer,
+        amount: uncomma(getValues('amount')),
+        participants: selectedList,
+        dateNow: paymentData.dateNow,
+      }),
+    );
+    dispatch(
+      editGroup({
+        ...selectedGorup,
+        totalPayments:
+          selectedGorup.totalPayments -
+          +paymentData.amount +
+          +uncomma(getValues('amount')),
+      }),
+    );
   };
 
   const radioToggle = (isSelected: boolean, username: string) => {
@@ -149,6 +178,14 @@ const ModifyPaymentScreen = () => {
     Boolean(watch('amount')) &&
     payer.length !== 0 &&
     selectedList.length !== 0;
+
+  useEffect(() => {
+    isModify &&
+      (setValue('paymentName', paymentData.name),
+      setValue('amount', paymentData.amount),
+      setPayer(paymentData.payer),
+      setSelectedList(paymentData.participants));
+  }, []);
 
   return (
     <>
@@ -238,11 +275,11 @@ const ModifyPaymentScreen = () => {
           }
           if (id) {
             const groupId = id.toString();
-            makeNewPaymet(groupId, paymentId);
+            isModify ? modifyPayment() : makeNewPayment(groupId, paymentId);
             goBack();
           }
         }}
-        text="등록하기"
+        text={isModify ? '수정완료' : '등록하기'}
       />
       <AlertModal isVisible={alertVisible} setIsVisible={setAlertVisible} />
     </>

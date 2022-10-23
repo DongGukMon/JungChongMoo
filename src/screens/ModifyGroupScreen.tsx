@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
@@ -25,21 +25,29 @@ import MainButton from '../components/shared/MainButton';
 import {useForm} from 'react-hook-form';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {useDispatch} from 'react-redux';
-import {makeGorup} from '../redux/slice/gorupsSlice';
+import {editGroup, makeGorup} from '../redux/slice/gorupsSlice';
 import uuid from 'react-native-uuid';
 import AlertModal from '../components/shared/AlertModal';
 import CalendalModal from '../components/gruopScreen/CalendalModal';
+import {GroupTypes} from '../types/shared/group';
 
 const ModifyGroupScreen = () => {
+  const {params} = useRoute();
+  const selectedGroup = params as GroupTypes;
+  const isModify = Boolean(selectedGroup);
+
   const {watch, getValues, setValue} = useForm();
-  const [participants, setParticipants] = useState<string[]>([]);
-  const [date, setDate] = useState('');
+
+  const [participants, setParticipants] = useState<string[]>(
+    isModify ? selectedGroup.participants : [],
+  );
+  const [date, setDate] = useState(isModify ? selectedGroup.date : '');
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   const dispatch = useDispatch();
 
-  const makeNewGorup = (id: string) => {
+  const makeNewGroup = (id: string) => {
     dispatch(
       makeGorup({
         id,
@@ -49,6 +57,20 @@ const ModifyGroupScreen = () => {
         payments: [],
         totalPayments: 0,
         dateNow: Date.now(),
+      }),
+    );
+  };
+
+  const modifyGroup = (id: string) => {
+    dispatch(
+      editGroup({
+        id,
+        name: getValues('groupName'),
+        date,
+        participants: participants.filter(item => item.length !== 0),
+        payments: selectedGroup.payments,
+        totalPayments: selectedGroup.totalPayments,
+        dateNow: selectedGroup.dateNow,
       }),
     );
   };
@@ -64,7 +86,9 @@ const ModifyGroupScreen = () => {
     Boolean(date) &&
     participants.filter(item => item.length !== 0).length !== 0;
 
-  console.log(date);
+  useEffect(() => {
+    isModify && setValue('groupName', selectedGroup.name);
+  }, []);
 
   return (
     <>
@@ -145,10 +169,10 @@ const ModifyGroupScreen = () => {
             return;
           }
           const id = uuid.v4() as string;
-          makeNewGorup(id);
-          goToGroupDetail(id);
+          isModify ? modifyGroup(selectedGroup.id) : makeNewGroup(id);
+          goToGroupDetail(isModify ? selectedGroup.id : id);
         }}
-        text="다음"
+        text={isModify ? '수정완료' : '다음'}
       />
     </>
   );
