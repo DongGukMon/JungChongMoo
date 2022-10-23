@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import AdCarousel from '../components/home/AdCarousel';
 import PrevGroup from '../components/home/PrevGroup';
 import {TitleText, SizedBox, Padding} from '../components/shared/Common';
+import FloatingButton from '../components/shared/FloatingBtn';
 import MainButton from '../components/shared/MainButton';
 import RemoveModal from '../components/shared/RemoveModal';
 import ScreenLayout from '../components/shared/ScreenLayout';
@@ -43,7 +44,8 @@ const Home = () => {
           ))}
         </Padding>
       </ScreenLayout>
-      <MainButton onPress={goToModifyGroup} text="새로운 그룹 만들기" />
+      {/* <MainButton onPress={goToModifyGroup} text="새로운 그룹 만들기" /> */}
+      <FloatingButton onPress={goToModifyGroup} />
       <RemoveModal type="group" />
     </>
   );
