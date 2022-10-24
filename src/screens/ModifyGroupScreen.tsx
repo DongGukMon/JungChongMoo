@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -30,10 +30,15 @@ import uuid from 'react-native-uuid';
 import AlertModal from '../components/shared/AlertModal';
 import CalendalModal from '../components/gruopScreen/CalendalModal';
 import {GroupTypes} from '../types/shared/group';
+import {PaymentTypes} from '../types/shared/payment';
 
 const ModifyGroupScreen = () => {
   const {params} = useRoute();
-  const selectedGroup = params as GroupTypes;
+  const {selectedGroup, payments} = params as {
+    selectedGroup: GroupTypes;
+    payments: PaymentTypes[];
+  };
+
   const isModify = Boolean(selectedGroup);
 
   const {watch, getValues, setValue} = useForm();
@@ -44,6 +49,7 @@ const ModifyGroupScreen = () => {
   const [date, setDate] = useState(isModify ? selectedGroup.date : '');
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [alertModalData, setAlertModalData] = useState({title: '', body: ''});
 
   const dispatch = useDispatch();
 
@@ -59,6 +65,34 @@ const ModifyGroupScreen = () => {
         dateNow: Date.now(),
       }),
     );
+  };
+
+  const isPayerRemoved = () => {
+    let isRemoved = false;
+    payments.map(
+      payment =>
+        !participants.includes(payment.payer) &&
+        (setIsVisible(true), (isRemoved = true)),
+    );
+    return isRemoved;
+  };
+
+  const isParticipantRemoved = () => {
+    let isRemoved = false;
+    let paymentParticipnats: string[] = [];
+    payments.map(
+      payment =>
+        (paymentParticipnats = [
+          ...paymentParticipnats,
+          ...payment.participants,
+        ]),
+    );
+    const set = new Set(paymentParticipnats);
+    const uniqueParticipants = [...set];
+    uniqueParticipants.map(participnat => {
+      !participants.includes(participnat) && (isRemoved = true);
+    });
+    return isRemoved;
   };
 
   const modifyGroup = (id: string) => {
@@ -155,7 +189,12 @@ const ModifyGroupScreen = () => {
             );
           })}
         </Padding>
-        <AlertModal isVisible={isVisible} setIsVisible={setIsVisible} />
+        <AlertModal
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          title={alertModalData.title}
+          body={alertModalData.body}
+        />
         <CalendalModal
           isVisible={datePickerVisible}
           setIsVisible={setDatePickerVisible}
@@ -166,7 +205,18 @@ const ModifyGroupScreen = () => {
       <MainButton
         disabled={!isValid}
         onPress={() => {
-          if (participants.length === 0) {
+          if (isPayerRemoved()) {
+            setAlertModalData({
+              title: '참여자를 다시 확인해주세요.',
+              body: '각 결제건의 결제자는 참여자 목록에서 삭제할 수 없어요.',
+            });
+            setIsVisible(true);
+            return;
+          } else if (isParticipantRemoved()) {
+            setAlertModalData({
+              title: '참여자를 다시 확인해주세요.',
+              body: '각 결제건의 결제 참여자는 참여자 목록에서 삭제할 수 없어요.',
+            });
             setIsVisible(true);
             return;
           }

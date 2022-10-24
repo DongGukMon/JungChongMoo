@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
+import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import AdCarousel from '../components/home/AdCarousel';
 import PrevGroup from '../components/home/PrevGroup';
@@ -37,14 +38,32 @@ const Home = () => {
         <AdCarousel />
         <SizedBox height={20} />
         <Padding padding={26}>
-          <TitleText fontSize={24}>지난 정산들</TitleText>
-          <SizedBox height={30} />
-          {Object.values(groups).map((group: GroupTypes) => (
-            <PrevGroup key={group.id} onPress={goToGroupDetail} data={group} />
-          ))}
+          {Object.values(groups).length === 0 ? (
+            <View
+              style={{
+                height: 200,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TitleText fontSize={24}>
+                정총무와 함께 정산을 쉽고 빠르게
+              </TitleText>
+            </View>
+          ) : (
+            <>
+              <TitleText fontSize={24}>지난 정산들</TitleText>
+              <SizedBox height={30} />
+              {Object.values(groups).map((group: GroupTypes) => (
+                <PrevGroup
+                  key={group.id}
+                  onPress={goToGroupDetail}
+                  data={group}
+                />
+              ))}
+            </>
+          )}
         </Padding>
       </ScreenLayout>
-      {/* <MainButton onPress={goToModifyGroup} text="새로운 그룹 만들기" /> */}
       <FloatingButton onPress={goToModifyGroup} />
       <RemoveModal type="group" />
     </>

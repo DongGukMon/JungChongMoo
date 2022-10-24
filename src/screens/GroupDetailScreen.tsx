@@ -37,12 +37,12 @@ const GroupDetailScreen = () => {
   const {navigate, setOptions} = useNavigation();
   const {params: id} = useRoute();
 
-  const selectedGorup: GroupTypes = useSelector((state: RootState) =>
+  const selectedGroup: GroupTypes = useSelector((state: RootState) =>
     selectedGroupSelector(state, id ? id : ''),
   );
 
   const rawPayments: PaymentTypes[] = useSelector((state: RootState) =>
-    relatedPaymentSelector(state, selectedGorup.payments),
+    relatedPaymentSelector(state, selectedGroup.payments),
   );
 
   const payments = Object.values(rawPayments).sort(
@@ -63,30 +63,37 @@ const GroupDetailScreen = () => {
     navigate('ResultScreen' as never, id as never);
   }, []);
 
-  const goToModifyGroup = useCallback(() => {
-    navigate('ModifyGroup' as never, selectedGorup as never);
-  }, []);
+  const goToModifyGroup = useCallback(
+    (groupData: {selectedGroup: GroupTypes; payments: PaymentTypes[]}) => {
+      navigate('ModifyGroup' as never, groupData as never);
+    },
+    [],
+  );
 
   useEffect(() => {
     setOptions({
-      headerRight: () => (
-        <SettingBtn onPress={goToModifyGroup}>
-          <Icon name="settings" size={24} />
-        </SettingBtn>
-      ),
+      headerRight: () => {
+        const payers = payments.map(payment => payment.payer);
+        return (
+          <SettingBtn
+            onPress={() => goToModifyGroup({selectedGroup, payments})}>
+            <Icon name="settings" size={24} />
+          </SettingBtn>
+        );
+      },
     });
-  }, []);
+  }, [selectedGroup]);
 
   return (
     <>
       <ScreenLayout>
         <Padding padding={26}>
-          <TitleText fontSize={28}>{selectedGorup?.name}</TitleText>
+          <TitleText fontSize={28}>{selectedGroup?.name}</TitleText>
           <SizedBox height={15} />
           <FatDescription fontSize={18}>
-            {selectedGorup?.date +
+            {selectedGroup?.date +
               '   /   ' +
-              `${selectedGorup?.participants.length}명`}
+              `${selectedGroup?.participants.length}명`}
           </FatDescription>
           <SizedBox height={30} />
           <Row style={{justifyContent: 'space-between', alignItems: 'center'}}>

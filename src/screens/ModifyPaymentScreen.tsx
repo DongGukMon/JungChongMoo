@@ -114,7 +114,6 @@ const ModifyPaymentScreen = () => {
   );
 
   const [isVisible, setIsVisible] = useState(false);
-  const [alertVisible, setAlertVisible] = useState(false);
 
   const [payer, setPayer] = useState('');
   const [selectedList, setSelectedList] = useState(selectedGorup?.participants);
@@ -269,10 +268,7 @@ const ModifyPaymentScreen = () => {
         disabled={!isValid}
         onPress={() => {
           const paymentId = uuid.v4() as string;
-          if (!isValid) {
-            setAlertVisible(true);
-            return;
-          }
+
           if (id) {
             const groupId = id.toString();
             isModify ? modifyPayment() : makeNewPayment(groupId, paymentId);
@@ -281,7 +277,6 @@ const ModifyPaymentScreen = () => {
         }}
         text={isModify ? '수정완료' : '등록하기'}
       />
-      <AlertModal isVisible={alertVisible} setIsVisible={setAlertVisible} />
     </>
   );
 };
