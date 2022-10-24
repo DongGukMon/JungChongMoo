@@ -41,6 +41,7 @@ type ParamList = {
 
 const ModifyGroupScreen = () => {
   const {params} = useRoute<RouteProp<ParamList, 'modifyProps'>>();
+  
 
   const selectedGroup = params?.selectedGroup;
   const payments = params?.payments;

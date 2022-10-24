@@ -1,7 +1,14 @@
 import styled from '@emotion/native';
 import ModalLayout from '../shared/ModalLayout';
 import {Picker, DatePicker} from 'react-native-wheel-pick';
-import {Button, ButtonText} from '../shared/Common';
+import {
+  Button,
+  ButtonText,
+  Padding,
+  Separator,
+  SizedBox,
+  TitleText,
+} from '../shared/Common';
 import {useCallback} from 'react';
 
 interface CalendalModalPropTypes {
