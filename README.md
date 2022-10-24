@@ -16,4 +16,8 @@
 - 입력한 정보를 기반으로 누가 누구에게 얼마를 이체하면 되는지 알려주는 정산 기능
 - 정산 결과를 이미지로 만들어 공유하는 기능
 
-## 결과물 (제작중)
+## 결과물
+⬇Click to youtube⬇
+
+
+[<img width="200" alt="image" src="https://user-images.githubusercontent.com/30457954/197522059-72bad0aa-b2d9-4b70-9f7c-a0084063a9ed.png">](https://youtu.be/ITHlcc4ZmYA)
