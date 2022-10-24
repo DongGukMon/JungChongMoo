@@ -10,6 +10,7 @@ import {
   TitleText,
 } from '../shared/Common';
 import {useCallback} from 'react';
+import {Platform} from 'react-native';
 
 interface CalendalModalPropTypes {
   isVisible: boolean;
@@ -47,6 +48,7 @@ const CalendalModal = ({
     <ModalLayout isVisible={isVisible} setIsVisible={setIsVisible}>
       <ModalContentContainer>
         <DatePicker
+          textSize={20}
           style={{
             backgroundColor: 'white',
             width: 300,

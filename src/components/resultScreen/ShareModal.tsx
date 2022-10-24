@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {Share, useWindowDimensions} from 'react-native';
+import {Platform, useWindowDimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {lightTheme} from '../../styles/theme';
 import {StylePropTypes} from '../../types/shared/emotion';
@@ -18,6 +18,7 @@ import {
   ViewCard,
 } from '../shared/Common';
 import ModalLayout from '../shared/ModalLayout';
+import Share from 'react-native-share';
 
 interface ModalPropTypes {
   isVisible: boolean;
@@ -56,12 +57,13 @@ const ShareModal = ({
       .filter(a => Boolean(a))
       .join('\n');
 
-    const result = await Share.share({
-      url: `file://${uri}`,
+    const result = await Share.open({
+      url: Platform.OS === 'ios' ? `file://${uri}` : uri,
       title: '정산 결과를 친구와 공유해보세요.',
       message,
     });
-    if (result.action === Share.sharedAction) {
+
+    if (result.success === true) {
       reset();
     }
   };
@@ -109,6 +111,7 @@ const ShareModal = ({
                           setValue(`${payer}Number`, text)
                         }
                         placeholder="계좌번호"
+                        keyboardType="numeric"
                       />
                       <SizedBox height={20} />
                     </Padding>
