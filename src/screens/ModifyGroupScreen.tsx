@@ -1,4 +1,4 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
@@ -32,12 +32,18 @@ import CalendalModal from '../components/gruopScreen/CalendalModal';
 import {GroupTypes} from '../types/shared/group';
 import {PaymentTypes} from '../types/shared/payment';
 
-const ModifyGroupScreen = () => {
-  const {params} = useRoute();
-  const {selectedGroup, payments} = params as {
+type ParamList = {
+  modifyProps: {
     selectedGroup: GroupTypes;
     payments: PaymentTypes[];
   };
+};
+
+const ModifyGroupScreen = () => {
+  const {params} = useRoute<RouteProp<ParamList, 'modifyProps'>>();
+
+  const selectedGroup = params?.selectedGroup;
+  const payments = params?.payments;
 
   const isModify = Boolean(selectedGroup);
 
@@ -205,20 +211,22 @@ const ModifyGroupScreen = () => {
       <MainButton
         disabled={!isValid}
         onPress={() => {
-          if (isPayerRemoved()) {
-            setAlertModalData({
-              title: '참여자를 다시 확인해주세요.',
-              body: '각 결제건의 결제자는 참여자 목록에서 삭제할 수 없어요.',
-            });
-            setIsVisible(true);
-            return;
-          } else if (isParticipantRemoved()) {
-            setAlertModalData({
-              title: '참여자를 다시 확인해주세요.',
-              body: '각 결제건의 결제 참여자는 참여자 목록에서 삭제할 수 없어요.',
-            });
-            setIsVisible(true);
-            return;
+          if (isModify) {
+            if (isPayerRemoved()) {
+              setAlertModalData({
+                title: '참여자를 다시 확인해주세요.',
+                body: '각 결제건의 결제자는 참여자 목록에서 삭제할 수 없어요.',
+              });
+              setIsVisible(true);
+              return;
+            } else if (isParticipantRemoved()) {
+              setAlertModalData({
+                title: '참여자를 다시 확인해주세요.',
+                body: '각 결제건의 결제 참여자는 참여자 목록에서 삭제할 수 없어요.',
+              });
+              setIsVisible(true);
+              return;
+            }
           }
           const id = uuid.v4() as string;
           isModify ? modifyGroup(selectedGroup.id) : makeNewGroup(id);

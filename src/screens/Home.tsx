@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {View} from 'react-native';
@@ -7,7 +6,6 @@ import AdCarousel from '../components/home/AdCarousel';
 import PrevGroup from '../components/home/PrevGroup';
 import {TitleText, SizedBox, Padding} from '../components/shared/Common';
 import FloatingButton from '../components/shared/FloatingBtn';
-import MainButton from '../components/shared/MainButton';
 import RemoveModal from '../components/shared/RemoveModal';
 import ScreenLayout from '../components/shared/ScreenLayout';
 import {RootState} from '../redux/store';

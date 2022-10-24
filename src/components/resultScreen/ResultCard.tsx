@@ -1,17 +1,15 @@
 import React from 'react';
 import {Text} from 'react-native';
-import {ResultObjTpyes} from '../../utils/calculate';
+
 import insertComma from '../../utils/insertComma';
 import {
-  Card,
-  Description,
   FatDescription,
   Padding,
   Row,
   Separator,
   SizedBox,
   SubTitle,
-  TitleText,
+  ViewCard,
 } from '../shared/Common';
 
 interface ResultCardPropTypes {
@@ -44,7 +42,7 @@ const TradeRow = ({giver, amount}: {giver: string; amount: number}) => {
 
 const ResultCard = ({name, data, rawData}: ResultCardPropTypes) => {
   return (
-    <Card>
+    <ViewCard>
       <SizedBox height={10} />
       <Padding padding={16}>
         <Row style={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
@@ -86,7 +84,7 @@ const ResultCard = ({name, data, rawData}: ResultCardPropTypes) => {
           </>
         )}
       </Padding>
-    </Card>
+    </ViewCard>
   );
 };
 

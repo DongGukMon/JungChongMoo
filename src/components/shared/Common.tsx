@@ -26,7 +26,15 @@ export const Card = styled.TouchableOpacity`
   height: ${(props: Pick<StylePropTypes, 'height'>) =>
     props.height ? `${props.height}px` : 'auto'};
   width: 100%;
+  border-radius: 10px;
+  background-color: ${props => props.theme.colors.box};
+  margin-bottom: 26px;
+`;
 
+export const ViewCard = styled.View`
+  height: ${(props: Pick<StylePropTypes, 'height'>) =>
+    props.height ? `${props.height}px` : 'auto'};
+  width: 100%;
   border-radius: 10px;
   background-color: ${props => props.theme.colors.box};
   margin-bottom: 26px;
