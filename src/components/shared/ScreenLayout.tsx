@@ -4,8 +4,7 @@ import {KeyboardAvoidingView, Platform} from 'react-native';
 import {StylePropTypes} from '../../types/shared/emotion';
 
 export const Container = styled.ScrollView`
-  background-color: ${(props: Pick<StylePropTypes, 'theme'>) =>
-    props.theme.colors.main};
+  background-color: ${props => props.theme.colors.main};
   flex: 1;
 `;
 
