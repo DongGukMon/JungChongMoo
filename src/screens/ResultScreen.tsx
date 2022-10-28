@@ -26,7 +26,7 @@ const ResultScreen = () => {
 
   const {params: id} = useRoute();
   const {normalizedData, resultObj: resultData} = useCalculate(id);
-  const ref: any = useRef();
+  const ref = useRef<ViewShot | null>(null);
 
   if (!resultData || !normalizedData) {
     return <></>;

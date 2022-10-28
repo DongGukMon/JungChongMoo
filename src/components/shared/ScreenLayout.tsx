@@ -11,8 +11,7 @@ export const Container = styled.ScrollView`
 const ScreenLayout = ({children}: {children: React.ReactNode}) => {
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1, backgroundColor: 'red'}}
       keyboardVerticalOffset={100}>
       <Container>{children}</Container>
     </KeyboardAvoidingView>
