@@ -18,7 +18,7 @@ const AdContainer = styled.View`
 const AdCarousel = () => {
   return (
     <AdContainer>
-      <TitleText fontSize={24}>AD</TitleText>
+      <TitleText fontSize={24}>광고</TitleText>
     </AdContainer>
   );
 };
